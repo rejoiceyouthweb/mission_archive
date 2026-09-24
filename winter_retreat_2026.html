@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 청소년부 동계수련회 진행안 종합 뷰어</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 16px; }
+    .container { max-width: 1400px; margin: 0 auto; }
+
+    /* 헤더 영역 */
+    .header-box {
+      background: #fff;
+      padding: 20px 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .header-title h1 { font-size: 1.5rem; font-weight: 800; color: #1e3a8a; }
+    .header-title p { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
+    .btn-back {
+      padding: 8px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-back:hover { background: #e2e8f0; }
+
+    /* 탭 바 */
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      white-space: nowrap;
+      padding: 10px 16px;
+      background: #fff;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover { background: #f8fafc; color: var(--primary); }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 4px rgba(37,99,235,0.25);
+    }
+
+    /* 탭 본문 */
+    .tab-pane {
+      display: none;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .tab-pane.active { display: block; }
+
+    .pane-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .pane-title { font-size: 1.15rem; font-weight: 700; color: #1e293b; }
+    .search-input {
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      width: 220px;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--primary); }
+
+    /* 공통 테이블 뷰 */
+    .table-responsive {
+      overflow-x: auto;
+      max-height: 700px;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+    th, td {
+      padding: 10px 12px;
+      border: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+    th {
+      background-color: #f8fafc;
+      color: #334155;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    tbody tr:hover { background-color: #f8fafc; }
+    .nowrap { white-space: nowrap; }
+    .wrap { white-space: normal; min-width: 180px; }
+
+    /* 물품 체크리스트 전용 */
+    .chk-item { cursor: pointer; transform: scale(1.2); }
+    .checked-row { background-color: #f1f5f9; text-decoration: line-through; color: #94a3b8; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-gray { background: #e2e8f0; color: #475569; }
+
+    /* 찬양 송폼 & 비고 박스 */
+    .songform-cell { font-family: monospace; font-size: 0.8rem; color: #0369a1; background: #f0f9ff; padding: 4px 8px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 헤더 -->
+    <div class="header-box">
+      <div class="header-title">
+        <h1>2026 청소년부 동계수련회 진행안 종합 시스템</h1>
+        <p>일정: 2026.01.25(주일) ~ 01.27(화) | 히브리서 2:1-4 "흘러 떠내려가지 않는 믿음이 되려면"</p>
+      </div>
+      <!-- winter_retreat_2026.html 상단 내비 버튼 -->
+	  <button class="btn-back" onclick="location.href='main.html'">← 사역 목록으로</button>
+    </div>
+
+    <!-- 8개 시트 전환 탭 바 -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('tab-tt')">타임테이블</button>
+      <button class="tab-btn" onclick="showTab('tab-allq')">전체 큐시트</button>
+      <button class="tab-btn" onclick="showTab('tab-item')">물품팀 체크리스트</button>
+      <button class="tab-btn" onclick="showTab('tab-open')">개회예배 큐시트</button>
+      <button class="tab-btn" onclick="showTab('tab-d1')">1일차 저녁집회</button>
+      <button class="tab-btn" onclick="showTab('tab-d2')">2일차 저녁집회 큐시트</button>
+      <button class="tab-btn" onclick="showTab('tab-close')">폐회예배</button>
+      <button class="tab-btn" onclick="showTab('tab-budget')">전체 결산</button>
+    </nav>
+
+    <!-- 1. 타임테이블 -->
+    <section id="tab-tt" class="tab-pane active">
+      <div class="pane-header">
+        <h2 class="pane-title">타임테이블 (2박 3일 전체 일정)</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:120px;">시 간</th>
+              <th>25일(주일)</th>
+              <th>26일(월)</th>
+              <th>27일(화)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>07:30:00</td><td>집합 및 등록</td><td>기상 및 세면</td><td>기상 및 세면</td></tr>
+            <tr><td>08:00:00</td><td>-</td><td>아침식사</td><td>-</td></tr>
+            <tr><td>09:00:00</td><td>-</td><td>오전 경건회(GBS)</td><td>오전 경건회 (폐회예배)</td></tr>
+            <tr><td>10:00:00</td><td>공과</td><td>특강</td><td>개인 정비 / 출발 준비</td></tr>
+            <tr><td>11:00:00</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>11:30:00</td><td>점심식사</td><td>-</td><td>교회로 이동</td></tr>
+            <tr><td>12:00:00</td><td>부서별 활동</td><td>점심식사</td><td>-</td></tr>
+            <tr><td>13:00:00</td><td>접수</td><td>조별 코스활동</td><td>-</td></tr>
+            <tr><td>14:00:00</td><td>개회예배</td><td>-</td><td>-</td></tr>
+            <tr><td>15:00:00</td><td>OT</td><td>-</td><td>-</td></tr>
+            <tr><td>15:30:00</td><td>이동시간</td><td>-</td><td>-</td></tr>
+            <tr><td>16:00:00</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>17:00:00</td><td>저녁식사</td><td>자유시간</td><td>-</td></tr>
+            <tr><td>18:00:00</td><td>숙소 배치 및 자유시간</td><td>저녁식사</td><td>-</td></tr>
+            <tr><td>19:00:00</td><td>저녁 집회</td><td>저녁 집회</td><td>-</td></tr>
+            <tr><td>20:00:00</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>21:00:00</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>22:00:00</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>22:30:00</td><td>-</td><td>셀레브레이션</td><td>-</td></tr>
+            <tr><td>23:00:00</td><td>개인정비</td><td>개인정비</td><td>-</td></tr>
+            <tr><td>23:30:00</td><td>취침</td><td>간식시간</td><td>-</td></tr>
+            <tr><td>00:00:00</td><td>-</td><td>취침</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. 전체 큐시트 -->
+    <section id="tab-allq" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">전체 교사진·스태프 큐시트</h2>
+        <input type="text" id="allqSearch" class="search-input" placeholder="이름 / 담당 / 역할 검색..." onkeyup="filterTable('allqSearch', 'allqTable')">
+      </div>
+      <div class="table-responsive">
+        <table id="allqTable">
+          <thead>
+            <tr>
+              <th>소속</th><th>대대</th><th>이름</th><th>담당</th>
+              <th>부서별예배<br><small>10:00</small></th>
+              <th>점심시간<br><small>12:00</small></th>
+              <th>집결<br><small>13:40</small></th>
+              <th>개회예배<br><small>14:00</small></th>
+              <th>OT<br><small>15:00</small></th>
+              <th>이동<br><small>15:30</small></th>
+              <th>숙소/자유<br><small>17:00</small></th>
+              <th>저녁식사<br><small>18:00</small></th>
+              <th>집결<br><small>18:45</small></th>
+              <th>저녁집회<br><small>19:00</small></th>
+              <th>개인정비<br><small>23:00</small></th>
+              <th>기상<br><small>07:30</small></th>
+              <th>아침식사<br><small>08:00</small></th>
+              <th>GBS<br><small>09:00</small></th>
+              <th>특강<br><small>10:00</small></th>
+              <th>점심식사<br><small>12:00</small></th>
+              <th>레크(BBG)<br><small>13:00</small></th>
+              <th>자유시간<br><small>17:00</small></th>
+              <th>저녁식사<br><small>18:00</small></th>
+              <th>저녁집회<br><small>20:00</small></th>
+              <th>셀레브레이션<br><small>22:30</small></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>본대</td><td>김재호</td><td>물품팀</td><td></td><td></td><td>포터 물품적재</td><td>예담교회 물품 구비</td><td>현수막</td><td>인원계수-관광버스</td><td>본부준비</td><td></td><td>집결</td><td>야식준비</td><td></td><td></td><td>아침식사 준비</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td></tr>
+            <tr><td>0</td><td>본대</td><td>김영하</td><td>운영팀(타임키퍼)</td><td></td><td></td><td></td><td>버스 도착시간 확인</td><td></td><td>인원계수-총괄</td><td>숙소인솔(본관)</td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>0</td><td>본대</td><td>김정모 목사님</td><td>총괄</td><td></td><td></td><td></td><td>설교</td><td></td><td></td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>차량 가지러 가기</td></tr>
+            <tr><td>1</td><td>본대</td><td>방은주</td><td>조별교사 1</td><td></td><td></td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도(1,2,3,4조 통합)</td><td>조별지도</td><td>집결</td><td>조별지도</td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도(위더슨홀)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td></tr>
+            <tr><td>1</td><td>본대</td><td>이미림</td><td>조별교사 2</td><td></td><td></td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도(1,2,3,4조 통합)</td><td>조별지도</td><td>집결</td><td>조별지도</td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도(위더슨홀)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td></tr>
+            <tr><td>2</td><td>본대</td><td>서수경</td><td>물품팀</td><td></td><td></td><td>포터 물품적재</td><td></td><td></td><td>인원계수-교회버스</td><td>본부준비</td><td></td><td>집결</td><td>숙소 순찰</td><td></td><td></td><td>아침식사 준비</td><td>5조보조</td><td>5조보조</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td><td>물품지킴</td></tr>
+            <tr><td>2</td><td>본대</td><td>박찬솔</td><td>조별교사 5</td><td></td><td></td><td></td><td></td><td></td><td>차량운행</td><td></td><td>집결</td><td>조별지도</td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도(15인실)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td></td></tr>
+            <tr><td>2</td><td>본대</td><td>이학주</td><td>조별교사 6</td><td></td><td></td><td></td><td>조별지도</td><td>조별지도</td><td>인원계수-카니발/차량운행</td><td></td><td></td><td>집결</td><td>조별지도</td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도(15인실)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td></tr>
+            <tr><td>2</td><td>본대</td><td>고아름</td><td>조별교사 7/물품팀</td><td></td><td></td><td></td><td>물품적재</td><td></td><td>인원계수-스타리아</td><td></td><td>식사준비</td><td>집결</td><td>조별지도</td><td></td><td>조별지도</td><td>식사준비</td><td>조별지도(15인실)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td></tr>
+            <tr><td>2</td><td>본대</td><td>신혜진</td><td>조별교사 8</td><td></td><td></td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>집결</td><td>조별지도</td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td></tr>
+            <tr><td>2</td><td>본대</td><td>이원욱</td><td>차량지원팀</td><td></td><td>차량주차(13:00)</td><td>포터 물품적재</td><td>포터인계</td><td></td><td></td><td>숙소인솔</td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>본대</td><td>김주몽</td><td>물품팀</td><td></td><td></td><td>포터 물품적재</td><td></td><td></td><td></td><td>본부준비</td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>본대</td><td>손영주</td><td>조별교사 10</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td>조별지도</td><td></td><td>조별지도</td><td>조별지도</td><td>조별지도(본당)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td></tr>
+            <tr><td>3</td><td>본대</td><td>김건희</td><td>조별교사 9/차량</td><td></td><td></td><td>포터 물품적재</td><td>자리 안내</td><td>조별지도</td><td>인원계수9409/운행</td><td>조별지도</td><td>조별지도</td><td>집결</td><td>조별지도</td><td></td><td></td><td>조별지도</td><td>조별지도(본당)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td></tr>
+            <tr><td>3</td><td>본대</td><td>한상호</td><td>차량지원팀</td><td></td><td></td><td>포터 물품적재</td><td></td><td></td><td>인원계수8261/운행</td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>본대</td><td>오필환</td><td>스태프</td><td></td><td></td><td></td><td></td><td></td><td>후발 아트홀 확인</td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>본대</td><td>박동현</td><td>스태프</td><td></td><td></td><td>포터 물품적재</td><td></td><td></td><td></td><td></td><td>식사준비</td><td>집결</td><td>야식준비</td><td></td><td></td><td>10조 보조</td><td>10조 보조</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>본대</td><td>한사랑</td><td>음악팀</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>0</td><td>선발대</td><td>김지환 전도사</td><td>총괄</td><td></td><td></td><td></td><td>자막담당</td><td>출발</td><td>숙소준비(이불)</td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td>설교</td><td></td><td>총괄</td><td></td><td></td><td></td><td>차량 가지러 가기</td><td></td></tr>
+            <tr><td>0</td><td>선발대</td><td>송세찬 전도사</td><td>총괄</td><td></td><td></td><td>찬양팀 연습</td><td>찬양인도/예닮교회</td><td>출발</td><td>예배준비</td><td></td><td></td><td>집결</td><td>설교</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>차량 가지러 가기</td></tr>
+            <tr><td>0</td><td>선발대</td><td>박흥식</td><td>회계</td><td></td><td></td><td></td><td>물품적재</td><td>출발</td><td>식사준비</td><td></td><td></td><td>집결</td><td>야식준비</td><td></td><td></td><td>아침식사 준비</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>1</td><td>선발대</td><td>조영진</td><td>미디어팀</td><td></td><td></td><td>촬영</td><td></td><td>출발</td><td>예배준비</td><td>숙소인솔(별관)</td><td>촬영</td><td>집결</td><td>촬영</td><td>별관 지도</td><td>촬영</td><td>촬영</td><td>촬영</td><td>촬영</td><td>촬영</td><td>촬영</td><td>촬영</td><td>촬영</td><td>촬영</td><td>촬영</td></tr>
+            <tr><td>1</td><td>선발대</td><td>박창범</td><td>예배팀</td><td></td><td></td><td>음향 운용</td><td>음향 운용</td><td>출발</td><td>예배준비</td><td></td><td></td><td>집결</td><td>음향</td><td></td><td></td><td>BGM준비</td><td>2조 보조</td><td>2조 보조</td><td>BGM준비</td><td>3조 인솔</td><td></td><td></td><td>음향</td><td></td></tr>
+            <tr><td>2</td><td>선발대</td><td>정성민</td><td>프로그램팀</td><td></td><td></td><td></td><td>자리 안내</td><td>출발</td><td>숙소준비(이불)</td><td></td><td></td><td>집결</td><td>숙소 순찰</td><td>불침번(01:00)</td><td></td><td></td><td>6조보조</td><td>6조보조</td><td></td><td>레크진행(위더슨홀)</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>1</td><td>후발대</td><td>김종건</td><td>미디어팀</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td>조명</td><td></td><td></td><td>1조 보조</td><td>1조 보조</td><td>레크준비</td><td>레크진행(15인실 2)</td><td></td><td></td><td>조명</td><td>차량 가지러 가기</td><td></td></tr>
+            <tr><td>1</td><td>후발대</td><td>정행복</td><td>조별교사 3/예배</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td>자막</td><td></td><td></td><td>조별지도(위더슨홀)</td><td>3조 보조</td><td>레크준비</td><td>레크진행(15인실 3)</td><td></td><td></td><td>자막</td><td></td><td></td></tr>
+            <tr><td>2</td><td>후발대</td><td>홍찬우</td><td>프로그램/예배</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td>7조보조</td><td>7조보조</td><td></td><td>레크진행(위더슨홀)</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>후발대</td><td>이상준</td><td>예배팀</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td>레크진행(본당)</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>후발대</td><td>이혜린</td><td>프로그램팀</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td></td><td></td><td>레크진행</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>후발대</td><td>강영민</td><td>프로그램팀</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td>9조 보조</td><td>9조 보조</td><td></td><td>레크진행(본당)</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td>후발대</td><td>전현규</td><td>스태프</td><td></td><td></td><td></td><td></td><td></td><td></td><td>식사후 18:45 집결</td><td>집결</td><td>선봉</td><td>불침번(01:00)</td><td></td><td></td><td>반주</td><td></td><td></td><td>청3부스 스탭</td><td></td><td></td><td>선봉</td><td></td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>김다니엘</td><td>청년스탭</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>집결</td><td></td><td></td><td></td><td>조별지도</td><td>3조 보조</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td></td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>오병현</td><td>조별교사 4</td><td></td><td></td><td></td><td></td><td></td><td></td><td>식사후 18:45 집결</td><td>집결</td><td>선봉</td><td>별관 입구</td><td></td><td>조별지도</td><td>조별지도(본당)</td><td>조별지도</td><td>조별지도</td><td>청1부스 스탭</td><td>조별지도</td><td>조별지도</td><td>선봉</td><td>별관 입구</td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>이슬기</td><td>조별교사 4</td><td></td><td></td><td></td><td></td><td></td><td></td><td>식사후 18:45 집결</td><td>집결</td><td>선봉</td><td>오솔길 1</td><td></td><td>조별지도</td><td>조별지도(본당)</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>조별지도</td><td>선봉</td><td>조별지도</td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>김하늘</td><td>청년스탭</td><td></td><td></td><td></td><td></td><td></td><td></td><td>식사후 18:45 집결</td><td>집결</td><td>선봉</td><td>오솔길 2</td><td></td><td></td><td></td><td></td><td></td><td>청1부스 스탭</td><td></td><td></td><td>선봉</td><td></td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>신주원</td><td>청년스탭</td><td></td><td></td><td></td><td></td><td></td><td></td><td>식사후 18:45 집결</td><td>집결</td><td>선봉</td><td>본관 3층</td><td></td><td></td><td></td><td></td><td></td><td>청1부스 스탭</td><td></td><td></td><td>선봉</td><td></td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>엄지민</td><td>청년스탭</td><td></td><td></td><td></td><td></td><td></td><td></td><td>식사후 18:45 집결</td><td>집결</td><td>선봉</td><td>본관 지하1층</td><td></td><td></td><td></td><td></td><td></td><td>청1부스 스탭</td><td></td><td></td><td>선봉</td><td></td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>이혜인</td><td>청년스탭</td><td></td><td></td><td></td><td></td><td></td><td></td><td>식사후 18:45 집결</td><td>집결</td><td>선봉</td><td>본관 1층</td><td></td><td></td><td></td><td></td><td></td><td>청3부스 스탭</td><td></td><td></td><td>선봉</td><td></td><td></td></tr>
+            <tr><td>4</td><td>후발대</td><td>조은혜</td><td>청년스탭</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>본관 2층</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. 물품팀 체크리스트 -->
+    <section id="tab-item" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">물품팀 체크리스트 (총 77개 품목)</h2>
+        <input type="text" id="itemSearch" class="search-input" placeholder="물품명 / 카테고리 검색..." onkeyup="filterTable('itemSearch', 'itemTable')">
+      </div>
+      <div class="table-responsive">
+        <table id="itemTable">
+          <thead>
+            <tr>
+              <th style="width:40px; text-align:center;">체크</th>
+              <th>카테고리</th>
+              <th>물품명</th>
+              <th>수량</th>
+              <th>담당자</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 본부 -->
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td><span class="badge badge-blue">본부</span></td><td>감사 헌금 봉투</td><td>150</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>타임테이블</td><td>10</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>포스터</td><td>15</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>워크북</td><td>140</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>명찰</td><td>139</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>버스 차량 표지</td><td>6</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>현수막</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>출석체크표</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>옷 배분표</td><td>3</td><td>물품팀</td><td>각 부서 배부</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>본부</td><td>현수막</td><td>1</td><td>물품팀</td><td></td></tr>
+            <!-- 의약품 -->
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td><span class="badge badge-blue">의약품</span></td><td>해열진통제(두통약)(타이래놀)</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>소화제</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>지사제</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>감기약(코감기,기침감기약)</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>알러지약</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>습윤밴드(메디폼)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>압박붕대</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>대일밴드</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>파스(케팜)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>후시딘</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>반창고</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>의약품</td><td>포미돈(빨간약)</td><td>0</td><td>물품팀</td><td></td></tr>
+            <!-- 사무용품 -->
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td><span class="badge badge-blue">사무용품</span></td><td>필기도구</td><td>100</td><td>물품팀</td><td>청일에 있는거 가져가겠습니다.</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>사무용품</td><td>가위</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>사무용품</td><td>스카치 테이프</td><td>없음</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>사무용품</td><td>자석(24)</td><td>3</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>사무용품</td><td>스케치북</td><td>5</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>사무용품</td><td>도깨비 테이프</td><td>없음</td><td>물품팀</td><td></td></tr>
+            <!-- 간식 조식 -->
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td><span class="badge badge-blue">간식/조식</span></td><td>컵라면(육개장)</td><td>72</td><td>물품팀</td><td>컵라면(육개장*24) 3box</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>컵라면(김치)</td><td>72</td><td>물품팀</td><td>컵라면(김치*24) 3box</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>컵라면(신라면)</td><td>64</td><td>물품팀</td><td>컵라면(신라면*15) 4box + 4개</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>컵라면(새우탕)</td><td>56</td><td>물품팀</td><td>컵라면(새우탕*15) 4box - 4개</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>물(500ml : 20개)</td><td>20</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>허쉬초코렛 드링크(24개)</td><td>4</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>피크닉 사과(24개)</td><td>4</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>매일 멸균우유(24개)</td><td>3</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>비타 500 더블팩(20병)</td><td>3</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>박카스 F(20명)</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>한입 카스텔라(32개)</td><td>4</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>밀크를 케잌2(100개)</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>시리얼(첵스초코970g)</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>시리얼(포스트 콘푸라이트 1.8 kg)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>믹스커피(핵심 모카골드 180개)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>믹스커피(카누 마일드 미니 100개)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>후레쉬베리(30개)</td><td>4</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>초코파이(60개)</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>천하장사소시지(100개)</td><td>3</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>마이쮸</td><td>2</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>미니스 믹스초코릿</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>멘토스</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>코피코커피 사탕</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>간식/조식</td><td>그린망고젤리</td><td>1</td><td>물품팀</td><td></td></tr>
+            <!-- 일회용품 -->
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td><span class="badge badge-blue">일회용품</span></td><td>종이컵(1000개)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>일회용품</td><td>대나무 젓가락(300개)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>일회용품</td><td>다회용 스푼(200개)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>일회용품</td><td>베베숲 물티슈(20개)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>일회용품</td><td>일회용 용기(100개) & 바구니(2개)</td><td>1</td><td>물품팀</td><td></td></tr>
+            <!-- 학생준비물 안내 -->
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td><span class="badge badge-gray">학생준비물</span></td><td>마지막 집회시 드릴 헌금, 개인수건, 세면도구</td><td>-</td><td>운영팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>학생준비물</td><td>성경책, 필기도구, 여벌 옷, 개인 상비약</td><td>-</td><td>운영팀</td><td></td></tr>
+            <!-- 예배물품 -->
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td><span class="badge badge-blue">예배물품</span></td><td>메인키보드</td><td>1</td><td>예배팀</td><td>청소년1부</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>세컨키보드</td><td>1</td><td>예배팀</td><td>청소년2부</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>핀마이크</td><td>1</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>무선마이크</td><td>2</td><td>예배팀</td><td>아트홀 ULXD</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>유선마이크</td><td>9</td><td>예배팀</td><td>아트홀 3개 / 블레싱홀 2 / 청3 1 / 본당 2</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>DIBOX</td><td>3</td><td>예배팀</td><td>블레싱홀 스트레오 3개</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>XLR</td><td>17</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>TS</td><td>4</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>볼륨페달</td><td>1</td><td>예배팀</td><td>청소년2부 1</td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>서스테인페달</td><td>2</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>노트북</td><td>-</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>hdmi</td><td>2</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>허브</td><td>2</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>3.5 to ts</td><td>1</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>p16 d</td><td>1</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>p16 HQ</td><td>5</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>LAN선</td><td>7</td><td>예배팀</td><td></td></tr>
+            <tr><td style="text-align:center;"><input type="checkbox" class="chk-item" onclick="toggleRow(this)"></td><td>예배물품</td><td>총알라인</td><td>5</td><td>예배팀</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. 개회예배 큐시트 -->
+    <section id="tab-open" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">개회예배 큐시트</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>소요</th><th>시작시간</th><th>순서</th><th>내용</th><th>담당자</th><th>송폼/비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>120분</td><td>12:00:00</td><td>사전연습</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>4분</td><td>20:00:00</td><td>예배전기도</td><td>예배 의미 인도</td><td>송세찬전도사</td><td>-</td></tr>
+            <tr><td>15분</td><td>14:00:00</td><td>찬양</td><td>저 높은 하늘 위로</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>나의 가장 낮은 마음</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>물 위를 걷는 자</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>3분</td><td>14:15:00</td><td>대표기도</td><td>"아멘...이시간 우리를 대표해서"</td><td>김병찬장로</td><td>-</td></tr>
+            <tr><td>1분</td><td>14:18:00</td><td>성경봉독</td><td>히브리서 2:1-4</td><td>송세찬전도사</td><td>-</td></tr>
+            <tr><td>25분</td><td>14:19:00</td><td>설교</td><td>흘러 떠내려가지 않는 믿음이 되려면</td><td>김정모 목사</td><td>-</td></tr>
+            <tr><td>5분</td><td>14:44:00</td><td>기도회</td><td>함께 지어져 가네</td><td>-</td><td>-</td></tr>
+            <tr><td>11분</td><td>14:49:00</td><td>교육및준비</td><td>물품 빼기</td><td>-</td><td>-</td></tr>
+            <tr><td>30분</td><td>15:00:00</td><td>OT</td><td>담임목사님</td><td>담임목사님</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. 1일차 저녁집회 큐시트 -->
+    <section id="tab-d1" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">1일차 저녁집회 큐시트</h2>
+      </div>
+      
+      <!-- 세션 및 엔지니어 라인업 카드 -->
+      <div style="background:#f8fafc; border:1px solid var(--border-light); padding:12px 16px; border-radius:6px; margin-bottom:12px; font-size:0.88rem;">
+        <p><strong>[찬양팀 라인업]</strong> 인도: 김지혜 전도사 | 건반(Main): ? / 건반(Synth): 한사랑 | 기타(Elec): 이성재 | 베이스: 황준상 | 드럼: 사무엘</p>
+        <p style="margin-top:4px;"><strong>[싱어팀]</strong> 싱어L(1): 여 | 싱어L(2~4): 남 | 싱어R(1): 남 | 싱어R(3): 남</p>
+        <p style="margin-top:4px;"><strong>[방송/미디어]</strong> 자막: 정행복 | 조명: 김종건 | 엔지니어: 정행복, 김종건 | 촬영: 조영진</p>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>소요</th><th>시작시간</th><th>순서</th><th>내용</th><th>담당자</th><th>송폼</th><th>방송/음향</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>30분</td><td>17:30:00</td><td>식사</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>120분</td><td>18:00:00</td><td>사전연습</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>4분</td><td>20:00:00</td><td>예배전기도</td><td>예배 의미 인도</td><td>송세찬전도사</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>50분</td><td>20:04:00</td><td>찬양</td><td>나 무엇과도 주님을</td><td>-</td><td><span class="songform-cell">INTRO -V-V-C- INTER- V-C-C-C-기도</span></td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>예수보다 더 큰 사랑 + 주사랑 놀라와</td><td>-</td><td><span class="songform-cell">Intro-A-A-B-A-Inter-C-C-A-A1-A1-B-A1-A2-Bx3</span></td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>우리가 주를 더욱 사랑하고</td><td>-</td><td><span class="songform-cell">Intro-V-P-C-V-P-C-Inter-B-C-C-드럼카운트 후 다음 곡</span></td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>More, more, more</td><td>-</td><td><span class="songform-cell">Ax2-B-Ax2-2B-Ax2-3B-Ax2-E.T</span></td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>베드로의 고백</td><td>-</td><td><span class="songform-cell">Intro-V-C-V-C-C-Inter-B-C-C/Cx2 다음곡</span></td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>물 위를 걷는 자</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>내 안에 부어 주소서 + 나의 가장 낮은 마음</td><td>-</td><td><span class="songform-cell">Intro-A-A-B-C-A-B-C / D-E-F-D-F-F-F-Inter-E-F-F</span></td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>돌아서지 않으리</td><td>-</td><td><span class="songform-cell">Intro-V-V2-C-Inter-V3-C-C-C-OT(8)</span></td><td>-</td><td>-</td></tr>
+            <tr><td>1분</td><td>20:54:00</td><td>성경봉독</td><td>출애굽기 15장</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. 2일차 저녁집회 큐시트 -->
+    <section id="tab-d2" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">2일차 저녁집회 큐시트</h2>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid var(--border-light); padding:12px 16px; border-radius:6px; margin-bottom:12px; font-size:0.88rem;">
+        <p><strong>[찬양 및 엔지니어]</strong> 인도: 김지혜 전도사 | 건반(Main): ? / Synth: 한사랑 | Elec: 이성재 | Bass: 황준상 | Drum: 사무엘</p>
+        <p style="margin-top:4px;"><strong>[자막/조명/방송]</strong> 자막: 정행복 | 조명: 김종건 | 엔지니어: 정행복, 김종건 | 촬영: 조영진</p>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>소요</th><th>시작시간</th><th>순서</th><th>내용</th><th>담당자</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>30분</td><td>17:30:00</td><td>식사</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>120분</td><td>18:00:00</td><td>사전연습</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>4분</td><td>20:00:00</td><td>예배전기도</td><td>예배 의미 인도</td><td>송세찬전도사</td><td>-</td></tr>
+            <tr><td>50분</td><td>20:04:00</td><td>찬양</td><td>성령이 오셨네</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>주는 나의 친구 + 좋으신 하나님</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>이날은 주가 지으신 날 + more more more</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>내 안에 부어주소서 + 낮은자의 하나님</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>WAKE</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>ROMAN16:19 + 나는야 예수쟁이</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>사랑한다 말 하시네</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>성령이 오셨네</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>1분</td><td>20:54:00</td><td>성경봉독</td><td>출애굽기 15장</td><td>-</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>봉헌</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>39분</td><td>20:55:00</td><td>설교</td><td>말씀 선포</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 7. 폐회예배 -->
+    <section id="tab-close" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">폐회예배 큐시트</h2>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid var(--border-light); padding:12px 16px; border-radius:6px; margin-bottom:12px; font-size:0.88rem;">
+        <p><strong>[예배 스태프]</strong> 자막: 정행복 | 조명: 김종건 | 말씀: 김정모 목사 | 싱어 및 연주팀 세팅 동일</p>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>소요</th><th>시작시간</th><th>순서</th><th>내용</th><th>담당자</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>30분</td><td>17:30:00</td><td>식사</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>120분</td><td>18:00:00</td><td>사전연습</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>4분</td><td>20:00:00</td><td>예배전기도</td><td>예배 의미 인도</td><td>송세찬전도사</td><td>-</td></tr>
+            <tr><td>50분</td><td>20:04:00</td><td>찬양</td><td>저 높은 하늘 위로</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>나의 가장 낮은 마음</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>-</td><td>찬양</td><td>물 위를 걷는 자</td><td>찬양팀</td><td>-</td></tr>
+            <tr><td>-</td><td>20:55:00</td><td>설교</td><td>말씀 선포 및 파송</td><td>김정모 목사</td><td>예배위원</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 8. 전체 결산 -->
+    <section id="tab-budget" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">동계수련회 전체 결산 내역서</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th colspan="3" style="background:#eff6ff; text-align:center;">[ 수 입 내 역 ]</th>
+              <th colspan="5" style="background:#fef2f2; text-align:center;">[ 지 출 예 상 내 역 ]</th>
+            </tr>
+            <tr>
+              <th>항 목</th><th>금 액</th><th>비 고</th>
+              <th>구분</th><th>상세 내역</th><th>금 액</th><th>비 고</th><th>합계 & 부서별 분담</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>교회 재정 입금</td><td>6,000,000</td><td>각 부서별 200만원</td>
+              <td><strong>공통경비</strong></td><td>장소대여료(2박 3일)</td><td>1,400,000</td><td>집회장소 2일(\700,000 * 2일)</td><td><strong>6,040,000원</strong></td>
+            </tr>
+            <tr>
+              <td>학생 수련회비</td><td>9,000,000</td><td>@\100,000 * 90명(예상)</td>
+              <td>공통경비</td><td>찬양팀 사례비</td><td>1,200,000</td><td>휨노스찬양팀(10명~12명)</td><td>청1: 2,013,330원</td>
+            </tr>
+            <tr>
+              <td>후원금(성도)</td><td>4,000,000</td><td>성도 후원 예상</td>
+              <td>공통경비</td><td>버스 추가 1대</td><td>1,000,000</td><td>25일, 27일 2회 운행</td><td>청2: 2,013,330원</td>
+            </tr>
+            <tr>
+              <td>후원금(교사)</td><td>3,400,000</td><td>회비 & 후원금(예상)</td>
+              <td>공통경비</td><td>음향기기 구매</td><td>1,440,000</td><td>P-16 HQ : \240,000 * 6대</td><td>청3: 2,013,330원</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>공통경비</td><td>조별활동 장소대여료</td><td>1,000,000</td><td>조별 코스 활동 장소 대여 등(예상)</td><td>-</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td><strong>부서별경비</strong></td><td>식대(총 3식)</td><td>3,120,000</td><td>25일 석식, 26일 중/석식 (총 390식*\8,000)</td><td><strong>11,950,000원</strong></td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>부서별경비</td><td>숙소이용료</td><td>4,280,000</td><td>15인실 2개, 5인실 4개, 4인실 19개 * 2일</td><td>청1: 3,952,690원</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>부서별경비</td><td>단체티</td><td>3,250,000</td><td>@\25,000 * 130벌</td><td>청2: 4,871,920원</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>부서별경비</td><td>27일 중식</td><td>1,300,000</td><td>@\10,000 * 130명</td><td>청3: 3,125,380원</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td><strong>공통기타</strong></td><td>간식류 & 음료</td><td>500,000</td><td>물/음료/과자류/사탕/초코릿 & 기타 일용품 등</td><td><strong>2,600,000원</strong></td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>공통기타</td><td>26일/27일 조식</td><td>500,000</td><td>시리얼, 우유, 머핀, 카스테라 등</td><td>청1: 866,667원</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>공통기타</td><td>야식(25일/26일)</td><td>1,600,000</td><td>피자, 치킨/떡볶이 등 (130명 기준)</td><td>청2: 866,667원 / 청3: 866,667원</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td><strong>기타(공통)</strong></td><td>기타 구매품</td><td>500,000</td><td>레크리에이션 소품, 행사진행 물품 등</td><td><strong>1,700,000원</strong></td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>기타(공통)</td><td>여행자보험 & 현수막</td><td>200,000</td><td>현수막, 여행자보험 등</td><td>청1: 566,667원</td>
+            </tr>
+            <tr>
+              <td>-</td><td>-</td><td>-</td>
+              <td>기타(공통)</td><td>예비비</td><td>1,000,000</td><td>기타 예비비</td><td>청2: 566,667원 / 청3: 566,667원</td>
+            </tr>
+            <tr style="background:#f8fafc; font-weight:700;">
+              <td><strong>총 수입 합계</strong></td><td><strong>22,400,000원</strong></td><td>-</td>
+              <td colspan="2"><strong>총 지출 예상 합계</strong></td><td><strong>22,290,000원</strong></td><td>예비비 포함</td><td><strong>잔액: 110,000원</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // 탭 전환 핸들러
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+    }
+
+    // 물품 체크박스 줄 취소선 토글
+    function toggleRow(checkbox) {
+      const row = checkbox.closest('tr');
+      if (checkbox.checked) {
+        row.classList.add('checked-row');
+      } else {
+        row.classList.remove('checked-row');
+      }
+    }
+
+    // 실시간 테이블 검색 필터
+    function filterTable(inputId, tableId) {
+      const filter = document.getElementById(inputId).value.toLowerCase();
+      const rows = document.getElementById(tableId).getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+      for (let i = 0; i < rows.length; i++) {
+        const text = rows[i].textContent || rows[i].innerText;
+        rows[i].style.display = text.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+      }
+    }
+  </script>
+</body>
+</html>

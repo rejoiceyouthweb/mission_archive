@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 청소년 1부 대심방 - 세상에서 가장 찬란한 만남</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 20px 14px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* 헤더 네비게이션 */
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .btn-back {
+      padding: 8px 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover { background: #f1f5f9; color: var(--text); }
+
+    /* 히어로 배너 */
+    .hero-banner {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #fff;
+      padding: 28px 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+      margin-bottom: 20px;
+    }
+    .hero-tag { display: inline-block; padding: 4px 10px; background: rgba(255,255,255,0.2); border-radius: 20px; font-size: 0.82rem; font-weight: 600; margin-bottom: 8px; }
+    .hero-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+    .hero-desc { font-size: 0.92rem; opacity: 0.9; }
+
+    /* 안내 메시지 */
+    .notice-box {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 10px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      color: #1e40af;
+      margin-bottom: 16px;
+    }
+
+    /* 탭 바 */
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      white-space: nowrap;
+      padding: 10px 16px;
+      background: #fff;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 4px rgba(37,99,235,0.2);
+    }
+
+    /* 카드 및 테이블 */
+    .tab-pane { display: none; background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border-light); padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .tab-pane.active { display: block; }
+    
+    .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); }
+    .pane-title { font-size: 1.15rem; font-weight: 700; color: #1e293b; }
+
+    .table-responsive { overflow-x: auto; border: 1px solid var(--border-light); border-radius: 8px; max-height: 720px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: center; white-space: nowrap; }
+    th, td { padding: 9px 12px; border: 1px solid var(--border-light); vertical-align: middle; }
+    th { background-color: #f8fafc; color: #334155; font-weight: 700; position: sticky; top: 0; z-index: 2; }
+    tbody tr:hover { background-color: #f8fafc; }
+
+    /* 심방 대상자 뱃지 */
+    .cell-student {
+      background-color: #dbeafe;
+      color: #1e40af;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .cell-event {
+      background-color: #f1f5f9;
+      color: #475569;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .cell-special {
+      background-color: #fef3c7;
+      color: #92400e;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 내비 -->
+    <div class="nav-bar">
+      <button class="btn-back" onclick="location.href='main.html'">← 사역 목록으로 돌아가기</button>
+      <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">2026 청소년 1부 대심방</span>
+    </div>
+
+    <!-- 히어로 배너 -->
+    <header class="hero-banner">
+      <div class="hero-tag">대심방 프로젝트</div>
+      <h1 class="hero-title">세상에서 가장 찬란한 만남</h1>
+      <p class="hero-desc">2026년 2월 ~ 3월 청소년 1부 학생들의 가정 및 개인 일대일 대심방 종합 타임테이블입니다.</p>
+    </header>
+
+    <div class="notice-box">
+      ⚠️ <strong>안내사항:</strong> 주일은 사역 상황에 따라 갑작스러운 변동이 있을 수 있습니다. 양해를 구합니다.
+    </div>
+
+    <!-- 탭 내비게이션 -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('tab-w1')">1주차 (2.1 ~ 2.7)</button>
+      <button class="tab-btn" onclick="showTab('tab-w2')">2주차 (2.8 ~ 2.14)</button>
+      <button class="tab-btn" onclick="showTab('tab-w3')">3주차 (2.15 ~ 2.16)</button>
+      <button class="tab-btn" onclick="showTab('tab-w4')">4주차 (2.22 ~ 2.28)</button>
+      <button class="tab-btn" onclick="showTab('tab-w5')">5주차 (3.1 ~ 3.22)</button>
+      <button class="tab-btn" onclick="showTab('tab-summary')">📋 전체 심방 명단 요약</button>
+    </nav>
+
+    <!-- 1주차 -->
+    <section id="tab-w1" class="tab-pane active">
+      <div class="pane-header">
+        <h2 class="pane-title">1주차 일정 (2026-02-01 ~ 2026-02-07)</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>시간대</th>
+              <th>2/1 (일)</th><th>2/2 (월)</th><th>2/3 (화)</th><th>2/4 (수)</th><th>2/5 (목)</th><th>2/6 (금)</th><th>2/7 (토)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>오전 8시</td><td><span class="cell-event">주일사역</span></td><td><span class="cell-event">교역자수련회</span></td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-event">교역자 회의</span></td></tr>
+            <tr><td>오전 8시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오전 9시</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">이진아</span></td><td><span class="cell-student">정유하</span></td><td>-</td></tr>
+            <tr><td>오전 9시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오전 10시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오전 10시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오전 11시</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">이은수</span></td><td>-</td><td>-</td></tr>
+            <tr><td>오전 11시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 12시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 12시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">엄지나</span></td><td>-</td></tr>
+            <tr><td>오후 1시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 1시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">최민혁</span></td><td>-</td><td>-</td></tr>
+            <tr><td>오후 2시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 2시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">이에스더</span></td><td>-</td><td>-</td></tr>
+            <tr><td>오후 3시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 3시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 4시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 4시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">박지율</span></td><td>-</td></tr>
+            <tr><td>오후 5시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 5시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 6시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 6시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2주차 -->
+    <section id="tab-w2" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">2주차 일정 (2026-02-08 ~ 2026-02-14)</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>시간대</th>
+              <th>2/8 (일)</th><th>2/9 (월)</th><th>2/10 (화)</th><th>2/11 (수)</th><th>2/12 (목)</th><th>2/13 (금)</th><th>2/14 (토)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>오전 8시</td><td><span class="cell-event">주일사역</span></td><td>-</td><td><span class="cell-event">개인일정</span></td><td>-</td><td>-</td><td>-</td><td><span class="cell-event">교역자 회의</span></td></tr>
+            <tr><td>오전 8시 30분 ~ 오후 1시</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 1시 30분</td><td>-</td><td>-</td><td><span class="cell-special">최민혁 레슨</span></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 2시</td><td><span class="cell-student">김예슬</span></td><td>-</td><td><span class="cell-student">박영준</span></td><td><span class="cell-student">김주현</span></td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 2시 30분</td><td>-</td><td>-</td><td><span class="cell-student">남도한</span></td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">이준형</span></td></tr>
+            <tr><td>오후 3시</td><td><span class="cell-event">청년교회 수련회 파견</span></td><td>-</td><td><span class="cell-student">김시환</span></td><td><span class="cell-special">이에스더 레슨</span></td><td>-</td><td>-</td><td><span class="cell-student">김시온</span></td></tr>
+            <tr><td>오후 3시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">김승근</span></td></tr>
+            <tr><td>오후 4시</td><td>-</td><td><span class="cell-event">청년교회 수련회 파견</span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>오후 4시 30분 ~ 6시 30분</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3주차 -->
+    <section id="tab-w3" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">3주차 일정 (2026-02-15 ~ 2026-02-16)</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>시간대</th>
+              <th>2026-02-15 (일요일)</th>
+              <th>2026-02-16 (월요일)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>08:00:00</td><td><span class="cell-event">주일사역</span></td><td><span class="cell-event">개인일정</span></td></tr>
+            <tr><td>08:30:00 ~ 11:30:00</td><td>-</td><td>-</td></tr>
+            <tr><td>12:00:00</td><td><span class="cell-student">김태훈 송한울</span></td><td>-</td></tr>
+            <tr><td>12:30:00 ~ 14:00:00</td><td>-</td><td>-</td></tr>
+            <tr><td>14:30:00</td><td><span class="cell-student">신희철, 허원우</span></td><td>-</td></tr>
+            <tr><td>15:00:00 ~ 18:30:00</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4주차 -->
+    <section id="tab-w4" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">4주차 일정 (2026-02-22 ~ 2026-02-28)</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>시간대</th>
+              <th>2/22 (일)</th><th>2/23 (월)</th><th>2/24 (화)</th><th>2/25 (수)</th><th>2/26 (목)</th><th>2/27 (금)</th><th>2/28 (토)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>08:00:00</td><td><span class="cell-event">주일사역</span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-event">교역자 회의</span></td></tr>
+            <tr><td>08:30 ~ 12:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>12:30:00</td><td><span class="cell-student">박윤하 (40분)</span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>13:00:00</td><td><span class="cell-student">서지윤</span></td><td><span class="cell-student">노현서</span></td><td><span class="cell-student">이하랑</span></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>13:30:00</td><td><span class="cell-student">정시후</span></td><td><span class="cell-student">권유하</span></td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">김하은</span></td><td>-</td></tr>
+            <tr><td>14:00:00</td><td><span class="cell-student">곽민서</span></td><td><span class="cell-student">지다은</span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>14:30:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">김예훈</span></td><td>-</td><td><span class="cell-student">강이람</span></td></tr>
+            <tr><td>15:00:00</td><td>-</td><td>-</td><td>-</td><td><span class="cell-special">에스더 레슨</span></td><td>-</td><td>-</td><td><span class="cell-student">이주하</span></td></tr>
+            <tr><td>15:30:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>16:00:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">조기찬</span></td></tr>
+            <tr><td>16:30:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>17:00:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">김서율</span></td><td>-</td></tr>
+            <tr><td>17:30 ~ 18:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>18:30:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">조아인</span></td><td>-</td></tr>
+            <tr><td>추가 일정</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">정연후</span></td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5주차 -->
+    <section id="tab-w5" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">5주차 일정 (3월 1일 ~ 3월 22일)</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>시간대</th>
+              <th>3/1 (일)</th><th>3/7 (토)</th><th>3/8 (일)</th><th>3/14 (토)</th><th>3/15 (일)</th><th>3/22 (일)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>08:00:00</td><td><span class="cell-event">주일사역</span></td><td><span class="cell-event">교역자 회의</span></td><td><span class="cell-event">주일사역</span></td><td><span class="cell-event">교역자 회의</span></td><td><span class="cell-event">주일사역</span></td><td><span class="cell-event">주일사역</span></td></tr>
+            <tr><td>08:30 ~ 11:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>11:30:00</td><td>-</td><td>-</td><td><span class="cell-student">한찬영</span></td><td>-</td><td><span class="cell-student">이재민</span></td><td>-</td></tr>
+            <tr><td>12:00:00</td><td><span class="cell-student">이예준</span></td><td>-</td><td><span class="cell-student">조경민</span></td><td>-</td><td><span class="cell-student">김강우</span></td><td><span class="cell-student">이재민</span></td></tr>
+            <tr><td>12:30:00</td><td><span class="cell-student">김연호</span></td><td>-</td><td>-</td><td>-</td><td><span class="cell-student">서정우</span></td><td><span class="cell-student">한웅희</span></td></tr>
+            <tr><td>13:00:00</td><td><span class="cell-student">이준명</span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>13:30:00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>14:00:00</td><td><span class="cell-special">새가족 환영회</span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>14:30:00</td><td>-</td><td><span class="cell-special">위임예배 일정</span></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>15:00 ~ 17:30</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>18:00:00</td><td>-</td><td><span class="cell-student">박하윤</span></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>18:30:00</td><td>-</td><td><span class="cell-student">조서현</span></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 전체 심방 명단 요약 -->
+    <section id="tab-summary" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">전체 심방 학생 및 일정 리스트 (총 36명/건)</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>일시</th><th>시간</th><th>학생 / 일정명</th><th>주차</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2026-02-05 (목)</td><td>오전 9시</td><td>이진아</td><td>1주차</td><td>-</td></tr>
+            <tr><td>2026-02-05 (목)</td><td>오전 11시</td><td>이은수</td><td>1주차</td><td>-</td></tr>
+            <tr><td>2026-02-05 (목)</td><td>오후 1시 30분</td><td>최민혁</td><td>1주차</td><td>-</td></tr>
+            <tr><td>2026-02-05 (목)</td><td>오후 2시 30분</td><td>이에스더</td><td>1주차</td><td>-</td></tr>
+            <tr><td>2026-02-06 (금)</td><td>오전 9시</td><td>정유하</td><td>1주차</td><td>-</td></tr>
+            <tr><td>2026-02-06 (금)</td><td>오후 12시 30분</td><td>엄지나</td><td>1주차</td><td>-</td></tr>
+            <tr><td>2026-02-06 (금)</td><td>오후 4시 30분</td><td>박지율</td><td>1주차</td><td>-</td></tr>
+            <tr><td>2026-02-08 (일)</td><td>오후 2시</td><td>김예슬</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-10 (화)</td><td>오후 1시 30분</td><td>최민혁</td><td>2주차</td><td>레슨</td></tr>
+            <tr><td>2026-02-10 (화)</td><td>오후 2시</td><td>박영준</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-10 (화)</td><td>오후 2시 30분</td><td>남도한</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-10 (화)</td><td>오후 3시</td><td>김시환</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-11 (수)</td><td>오후 2시</td><td>김주현</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-11 (수)</td><td>오후 3시</td><td>이에스더</td><td>2주차</td><td>레슨</td></tr>
+            <tr><td>2026-02-14 (토)</td><td>오후 2시 30분</td><td>이준형</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-14 (토)</td><td>오후 3시</td><td>김시온</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-14 (토)</td><td>오후 3시 30분</td><td>김승근</td><td>2주차</td><td>-</td></tr>
+            <tr><td>2026-02-15 (일)</td><td>12:00:00</td><td>김태훈, 송한울</td><td>3주차</td><td>-</td></tr>
+            <tr><td>2026-02-15 (일)</td><td>14:30:00</td><td>신희철, 허원우</td><td>3주차</td><td>-</td></tr>
+            <tr><td>2026-02-22 (일)</td><td>12:30:00</td><td>박윤하</td><td>4주차</td><td>40분 소요</td></tr>
+            <tr><td>2026-02-22 (일)</td><td>13:00:00</td><td>서지윤</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-22 (일)</td><td>13:30:00</td><td>정시후</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-22 (일)</td><td>14:00:00</td><td>곽민서</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-23 (월)</td><td>13:00:00</td><td>노현서</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-23 (월)</td><td>13:30:00</td><td>권유하</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-23 (월)</td><td>14:00:00</td><td>지다은</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-24 (화)</td><td>13:00:00</td><td>이하랑</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-26 (목)</td><td>14:30:00</td><td>김예훈</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-27 (금)</td><td>13:30:00</td><td>김하은</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-27 (금)</td><td>17:00:00</td><td>김서율</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-27 (금)</td><td>18:30:00</td><td>조아인</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-27 (금)</td><td>-</td><td>정연후</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-28 (토)</td><td>14:30:00</td><td>강이람</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-28 (토)</td><td>15:00:00</td><td>이주하</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-02-28 (토)</td><td>16:00:00</td><td>조기찬</td><td>4주차</td><td>-</td></tr>
+            <tr><td>2026-03-01 (일)</td><td>12:00:00</td><td>이예준</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-01 (일)</td><td>12:30:00</td><td>김연호</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-01 (일)</td><td>13:00:00</td><td>이준명</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-07 (토)</td><td>18:00:00</td><td>박하윤</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-07 (토)</td><td>18:30:00</td><td>조서현</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-08 (일)</td><td>11:30:00</td><td>한찬영</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-08 (일)</td><td>12:00:00</td><td>조경민</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-15 (일)</td><td>11:30:00</td><td>이재민</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-15 (일)</td><td>12:00:00</td><td>김강우</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-15 (일)</td><td>12:30:00</td><td>서정우</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-22 (일)</td><td>12:00:00</td><td>이재민</td><td>5주차</td><td>-</td></tr>
+            <tr><td>2026-03-22 (일)</td><td>12:30:00</td><td>한웅희</td><td>5주차</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

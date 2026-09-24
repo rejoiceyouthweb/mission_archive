@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 청소년부 연합 체육대회 매뉴얼</title>
+  <style>
+    :root {
+      --primary: #ea580c;
+      --primary-dark: #c2410c;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --badge-orange-bg: #ffedd5;
+      --badge-orange-txt: #9a3412;
+      --badge-blue-bg: #dbeafe;
+      --badge-blue-txt: #1e40af;
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); padding: 24px 16px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 960px; }
+
+    /* 네비게이션 */
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .btn-back {
+      padding: 8px 14px;
+      background-color: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover { background-color: #f1f5f9; color: var(--text-main); }
+
+    /* 히어로 배너 */
+    .hero-banner {
+      background: linear-gradient(135deg, #ea580c, #f97316);
+      color: #ffffff;
+      padding: 30px 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
+      margin-bottom: 24px;
+    }
+    .hero-tag { display: inline-block; padding: 4px 10px; background: rgba(255, 255, 255, 0.25); border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; }
+    .hero-title { font-size: 1.85rem; font-weight: 800; margin-bottom: 8px; }
+    .hero-desc { font-size: 0.95rem; opacity: 0.95; line-height: 1.5; }
+
+    /* 카드 */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+
+    /* 그리드 */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .info-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .info-label { font-size: 0.82rem; color: var(--text-sub); margin-bottom: 4px; }
+    .info-val { font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+
+    /* 부서별 분업 칩 */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .dept-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fafafa;
+    }
+    .dept-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      border-radius: 4px;
+      background: var(--badge-orange-bg);
+      color: var(--badge-orange-txt);
+      margin-bottom: 6px;
+    }
+    .dept-task { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+
+    /* 타임라인 단계 */
+    .timeline { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+    .timeline-step {
+      display: flex;
+      gap: 14px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .step-badge {
+      padding: 4px 10px;
+      height: fit-content;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: var(--badge-blue-bg);
+      color: var(--badge-blue-txt);
+      white-space: nowrap;
+    }
+    .step-content h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 4px; color: #1e293b; }
+    .step-content p { font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; }
+
+    /* 게임 규칙 카드 */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .game-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      background: #ffffff;
+      border-top: 4px solid var(--primary);
+    }
+    .game-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; color: #1e293b; }
+    .game-list { list-style: disc; margin-left: 18px; font-size: 0.88rem; color: var(--text-sub); line-height: 1.6; }
+
+    /* 피드백 박스 */
+    .feedback-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      color: #92400e;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 내비 -->
+    <div class="nav-bar">
+      <button class="btn-back" onclick="location.href='main.html'">← 사역 목록으로 돌아가기</button>
+      <span style="font-size: 0.9rem; color: var(--text-sub); font-weight: 600;">2026 청소년 1부 사역 아카이브</span>
+    </div>
+
+    <!-- 히어로 배너 -->
+    <header class="hero-banner">
+      <div class="hero-tag">청소년부 연합 사역</div>
+      <h1 class="hero-title">2026 청소년 연합 체육대회 매뉴얼</h1>
+      <p class="hero-desc">
+        청소년 1·2·3부 연합 체육대회 기획안, 종목별 룰, 준비 타임라인 및 사후 피드백 요약
+      </p>
+    </header>
+
+    <!-- 1. 기본 개요 및 예산 -->
+    <section class="card">
+      <h2 class="section-title">📍 1. 행사 개요</h2>
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-label">일시 및 소요 시간</div>
+          <div class="info-val">5월 17일(주일) / 최대 2시간</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">장소</div>
+          <div class="info-val">풋살장</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">참가 규모 & 조편성</div>
+          <div class="info-val">학생 약 110명 / 4개 조 (조당 약 20~25명)</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">간식</div>
+          <div class="info-val">맘스터치 햄버거, 물, 탄산음료</div>
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid var(--border); padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; color: var(--text-sub); line-height: 1.5;">
+        💰 <strong>예산 분담:</strong> 각 부서(청1, 청2, 청3)별 30만원씩 총 90만원 지원<br>
+        • 간식비: 60만원 | 경품(1·2·3등 선물 추첨): 30만원
+      </div>
+    </section>
+
+    <!-- 2. 부서별 업무 분장 -->
+    <section class="card">
+      <h2 class="section-title">👥 2. 부서별 역할 분업 (D-2주)</h2>
+      <div class="dept-grid">
+        <div class="dept-card">
+          <span class="dept-badge">청소년 1부</span>
+          <div class="dept-task">음향 및 전체 회계 총괄</div>
+        </div>
+        <div class="dept-card">
+          <span class="dept-badge">청소년 2부</span>
+          <div class="dept-task">찬양 및 현장 예배 주관</div>
+        </div>
+        <div class="dept-card">
+          <span class="dept-badge">청소년 3부</span>
+          <div class="dept-task">간식 준비 및 배부 총괄</div>
+        </div>
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-sub); margin-top: 10px;">
+        ※ 사회 및 게임 진행은 청년 교사진의 지원을 받아 원활하게 운영합니다.
+      </p>
+    </section>
+
+    <!-- 3. 주차별 준비 타임라인 -->
+    <section class="card">
+      <h2 class="section-title">⏱️ 3. 단계별 준비 타임라인</h2>
+      <div class="timeline">
+        <div class="timeline-step">
+          <span class="step-badge">D-5주</span>
+          <div class="step-content">
+            <h4>기획안 작성 (교역자)</h4>
+            <p>행사 콘셉트 설정 및 기본 계획 수립</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <span class="step-badge">D-4주</span>
+          <div class="step-content">
+            <h4>1차 연합 부장단 회의</h4>
+            <p>날짜(5/17 주일), 장소(풋살장), 시간(2시간) 확정 및 부서별 30만원 예산안 결의</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <span class="step-badge">D-3주</span>
+          <div class="step-content">
+            <h4>2차 연합 부장단 회의</h4>
+            <p>연합 찬양(스크린 없으므로 쉬운 찬양 선곡), 종목 선정(OX퀴즈, 판뒤집기, 피구), 간식 메뉴 확정</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <span class="step-badge">D-1주</span>
+          <div class="step-content">
+            <h4>세부 룰 확정 및 폭염 대비책 마련</h4>
+            <p>현장 남녀·학년 혼합 4개조 편성 기준 수립, 무더위 대비 열사병 대책 및 충분한 식수 확보</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <span class="step-badge">D-Day</span>
+          <div class="step-content">
+            <h4>현장 실행 (청1 중심 진행)</h4>
+            <p>찬양팀 악기 이동 지원, 접수 데스크 테이블 설치, 이동 학생 인솔 및 환대</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 종목별 게임 규칙 및 보상 체계 -->
+    <section class="card">
+      <h2 class="section-title">🎯 4. 경기 종목 및 운영 규칙</h2>
+      <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:12px;">
+        🎁 <strong>보상 시스템:</strong> 게임에서 승리하거나 문제를 맞출 때마다 <strong>추첨함에 본인 이름을 추가</strong>하여 최종 1·2·3등 추첨 확률을 높이는 누적 방식 적용
+      </p>
+
+      <div class="game-grid">
+        <!-- 피구 -->
+        <div class="game-card">
+          <div class="game-title">🏐 피구 (토너먼트)</div>
+          <ul class="game-list">
+            <li><strong>방식:</strong> 4개조 토너먼트 (경기당 15분 제한)</li>
+            <li><strong>승패:</strong> 상대팀 전멸 시 즉시 종료, 시간 초과 시 생존 인원 많은 팀 승리</li>
+            <li><strong>특수 규칙:</strong> 남학생은 주 손의 반대 손만 투구 가능</li>
+            <li><strong>공수 규칙:</strong> 외야에서 공을 잡지 못하면 내야 공으로 인정</li>
+            <li><strong>보상:</strong> 승리 팀 전원 추첨함에 이름 추가</li>
+          </ul>
+        </div>
+
+        <!-- 판 뒤집기 -->
+        <div class="game-card">
+          <div class="game-title">🔄 판 뒤집기 (토너먼트)</div>
+          <ul class="game-list">
+            <li><strong>방식:</strong> 4개조 토너먼트</li>
+            <li><strong>세트:</strong> 3판 2선승제 (판당 약 3분)</li>
+            <li><strong>승패:</strong> 종료 휘슬 시 본인 팀 색상의 판이 많은 팀 승리</li>
+            <li><strong>보상:</strong> 세트 승리 팀 전원 추첨함에 이름 추가</li>
+          </ul>
+        </div>
+
+        <!-- OX 퀴즈 -->
+        <div class="game-card">
+          <div class="game-title">❓ OX 퀴즈</div>
+          <ul class="game-list">
+            <li><strong>방식:</strong> 총 12~13문제 출제</li>
+            <li><strong>탈락 없음:</strong> 끝까지 전원 참여하여 즐기는 방식</li>
+            <li><strong>진행:</strong> 제한 시간 내 O 또는 X 구역으로 이동 (시간 종료 후 이동 불가)</li>
+            <li><strong>보상:</strong> 정답을 맞출 때마다 추첨함에 이름 1장 추가</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 사후 평가 및 피드백 -->
+    <section class="card">
+      <h2 class="section-title">📝 5. 사후 피드백 (차기 체육대회 개선점)</h2>
+      <div class="feedback-box">
+        1. <strong>예배 동선:</strong> 야외 이동 전, 실내에서 먼저 예배를 온전히 드리고 이동하는 것이 바람직함<br>
+        2. <strong>장소 및 시간:</strong> 풋살장 공간이 110명이 자유롭게 뛰놀기 다소 좁았으며, 2시간은 일정을 소화하기에 촉박했음<br>
+        3. <strong>소속감 강화:</strong> 조별 팀 조끼나 띠를 사전에 준비하여 팀별 결속력과 시인성을 높일 필요가 있음
+      </div>
+    </section>
+  </div>
+</body>
+</html>

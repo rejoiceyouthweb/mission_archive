@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 청소년 1부 새학년 시작 사역 리뷰</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --badge-blue-bg: #dbeafe;
+      --badge-blue-txt: #1e40af;
+      --badge-amber-bg: #fef3c7;
+      --badge-amber-txt: #92400e;
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* 상단 네비게이션 */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background-color: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    /* 메인 히어로 배너 */
+    .hero-banner {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #ffffff;
+      padding: 30px 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+      margin-bottom: 24px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+
+    /* 섹션 카드 공통 */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+
+    /* 주차별 타임라인 스타일 */
+    .timeline {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: #e2e8f0;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 22px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -20px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--primary);
+    }
+
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .week-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--badge-blue-bg);
+      color: var(--badge-blue-txt);
+    }
+
+    .week-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .task-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .task-list li {
+      font-size: 0.93rem;
+      color: var(--text-sub);
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .task-list li::before {
+      content: "•";
+      color: var(--primary);
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    /* 역할 분담 칩(태그) 그리드 */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .role-chip {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    /* 특별 행사 배너 (반별 사진 콘테스트) */
+    .event-card {
+      border-left: 5px solid #f59e0b;
+      background: #fffbeb;
+      padding: 18px 20px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-top: 12px;
+    }
+
+    .event-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: var(--badge-amber-bg);
+      color: var(--badge-amber-txt);
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .event-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #78350f;
+      margin-bottom: 6px;
+    }
+
+    .event-desc {
+      font-size: 0.92rem;
+      color: #92400e;
+      line-height: 1.5;
+    }
+
+    /* 테이블 스타일 */
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 내비게이션 -->
+    <div class="nav-bar">
+      <button class="btn-back" onclick="location.href='main.html'">← 사역 목록으로 돌아가기</button>
+      <span style="font-size: 0.9rem; color: var(--text-sub); font-weight: 600;">청소년 1부 아카이브</span>
+    </div>
+
+    <!-- 히어로 배너 -->
+    <header class="hero-banner">
+      <div class="hero-tag">2026 연간 사역 로드맵</div>
+      <h1 class="hero-title">새학년 시작 (1월 사역 준비)</h1>
+      <p class="hero-desc">새로운 한 해를 시작하며 예배 환경 정비, 학생 DB 구축, 교사 조직 정비를 진행합니다.</p>
+    </header>
+
+    <!-- 1. 주차별 사역 준비 계획 (타임라인) -->
+    <section class="card">
+      <h2 class="section-title">📅 1월 주차별 핵심 준비 사역</h2>
+      <div class="timeline">
+        <!-- 1주차 -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-header">
+            <span class="week-badge">1월 1주차</span>
+            <span class="week-title">예배 환경 정비 및 졸업 축하 논의</span>
+          </div>
+          <ul class="task-list">
+            <li>신입생 및 진급자 명찰 제작</li>
+            <li>새학년 감사 및 주정 헌금 봉투 인쇄/제작</li>
+            <li>청소년 1부 예배당 및 분반 공부 공간 환경 미화</li>
+            <li>초등부 졸업식 축하 방문 및 전달 방식 논의</li>
+          </ul>
+        </div>
+
+        <!-- 2주차 -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-header">
+            <span class="week-badge">1월 2주차</span>
+            <span class="week-title">교적 DB 구축 및 교복 증명사진 수집</span>
+          </div>
+          <ul class="task-list">
+            <li>신입생 대상 교복 증명사진 촬영/수집을 통한 교적 사진 최신화</li>
+            <li>기본 교적 데이터 정비 및 구글 스프레드시트 DB화</li>
+          </ul>
+          <!-- DB 항목 테이블 -->
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>구분</th>
+                  <th>수집 및 확인 필수 항목</th>
+                  <th>비고</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>기본 신상</strong></td>
+                  <td>학생 이름, 본인 연락처, 보호자 비상 연락처</td>
+                  <td>연락처 변경 여부 재확인</td>
+                </tr>
+                <tr>
+                  <td><strong>학교/신앙</strong></td>
+                  <td>출신 중학교명 및 학년 정보, 세례/유아세례 여부</td>
+                  <td>학습·세례 문답 대상자 선별</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3주차 -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-header">
+            <span class="week-badge">1월 3주차</span>
+            <span class="week-title">교사 섬김 역할 분장 확정</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-sub); margin-top: 4px;">
+            한 해 동안 부서 예배와 운영을 섬길 8대 기능별 교사 역할을 확정하고 사역을 개시합니다.
+          </p>
+          <div class="role-grid">
+            <div class="role-chip">🎸 밴드</div>
+            <div class="role-chip">💰 회계</div>
+            <div class="role-chip">🍞 간식준비</div>
+            <div class="role-chip">💻 자막</div>
+            <div class="role-chip">🎤 찬양팀</div>
+            <div class="role-chip">📋 임원진</div>
+            <div class="role-chip">📸 촬영</div>
+            <div class="role-chip">📑 주보</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 단독 기획 행사: 반별 사진 콘테스트 -->
+    <section class="card">
+      <h2 class="section-title">📷 새학년 친교 이벤트</h2>
+      <div class="event-card">
+        <span class="event-badge">일회성 단독 행사</span>
+        <h3 class="event-title">반별 사진 콘테스트</h3>
+        <p class="event-desc">
+          새롭게 배정된 반 교사와 아이들의 친밀도를 높이기 위한 단합 이벤트입니다.<br>
+          반별 개성을 살린 단체 포즈 사진을 촬영하여 제출하고, 투표를 거쳐 첫 반별 모임 간식비를 시상합니다.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

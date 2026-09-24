@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 청소년 1부 종려주일 시나리오 & 예배 큐시트</title>
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --primary-dark: #6d28d9;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --badge-purple-bg: #ede9fe;
+      --badge-purple-txt: #5b21b6;
+      --badge-amber-bg: #fef3c7;
+      --badge-amber-txt: #92400e;
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); padding: 24px 16px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 1040px; }
+
+    /* 상단 네비게이션 */
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .btn-back {
+      padding: 8px 14px;
+      background-color: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover { background-color: #f1f5f9; color: var(--text-main); }
+
+    /* 히어로 배너 */
+    .hero-banner {
+      background: linear-gradient(135deg, #581c87, #7c3aed);
+      color: #ffffff;
+      padding: 30px 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+      margin-bottom: 24px;
+    }
+    .hero-tag { display: inline-block; padding: 4px 10px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; }
+    .hero-title { font-size: 1.85rem; font-weight: 800; margin-bottom: 8px; }
+    .hero-desc { font-size: 0.95rem; opacity: 0.95; line-height: 1.5; }
+
+    /* 공통 카드 */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+
+    /* 테이블 스타일 */
+    .table-wrapper { overflow-x: auto; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left; }
+    th, td { padding: 10px 12px; border: 1px solid var(--border); vertical-align: top; }
+    th { background-color: #f8fafc; color: var(--text-sub); font-weight: 700; white-space: nowrap; }
+
+    /* 시나리오 카드 전용 스타일 */
+    .scene-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 16px;
+      background: #fafafa;
+    }
+    .scene-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .scene-title-group { display: flex; align-items: center; gap: 8px; }
+    .scene-title { font-size: 1.15rem; font-weight: 800; color: #4c1d95; }
+    .scene-time { font-size: 0.85rem; font-weight: 700; color: #64748b; background: #ede9fe; padding: 3px 8px; border-radius: 4px; }
+    
+    .cue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 14px;
+      font-size: 0.85rem;
+    }
+    .cue-item strong { color: #1e293b; display: block; margin-bottom: 2px; }
+
+    .script-box {
+      background: #ffffff;
+      border-left: 4px solid var(--primary);
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.94rem;
+      line-height: 1.8;
+      color: #1e293b;
+      white-space: pre-line;
+    }
+    .script-highlight {
+      background: #fdf4ff;
+      border: 1px dashed #d946ef;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #86198f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 네비게이션 -->
+    <div class="nav-bar">
+      <button class="btn-back" onclick="location.href='main.html'">← 사역 목록으로 돌아가기</button>
+      <span style="font-size: 0.9rem; color: var(--text-sub); font-weight: 600;">2026 청소년 1부 종려주일 사역</span>
+    </div>
+
+    <!-- 히어로 배너 -->
+    <header class="hero-banner">
+      <div class="hero-tag">종려주일 특별예배 & 뮤지컬/드라마 예배</div>
+      <h1 class="hero-title">2026 종려주일 시나리오 및 큐시트</h1>
+      <p class="hero-desc">
+        "호산나! 다윗의 자손이여 우리를 구원하소서" — 창조와 타락부터 겟세마네 동산과 십자가의 길까지 이어지는 구속사적 시나리오 전문
+      </p>
+    </header>
+
+    <!-- 1. 사전 준비 및 본예배 식순 (표 1) -->
+    <section class="card">
+      <h2 class="section-title">⏱️ 1. 전 날·당일 준비 및 식순 타임테이블</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>소요</th>
+              <th>시작시간</th>
+              <th>순서</th>
+              <th>내용</th>
+              <th>방송팀 / 조명 & 카메라</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>45분</td>
+              <td>13:00:00</td>
+              <td>전 날 준비</td>
+              <td>예배당 준비</td>
+              <td>조명은 각 심볼에 조명이 잡히도록 조정해 놓는다.</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>45분</td>
+              <td>13:45:00</td>
+              <td>전 날 준비</td>
+              <td>찬송가 141장 연습</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>35분</td>
+              <td>14:30:00</td>
+              <td>전 날 준비</td>
+              <td>리허설</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>60분</td>
+              <td>09:00:00</td>
+              <td>당일준비</td>
+              <td>묵상 메시지</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>25분</td>
+              <td>10:00:00</td>
+              <td>찬송가연습</td>
+              <td>BBS실 - 알토 | 정산실 - 테너 | 블레싱홀 - 소프라노 | 실버실 - 베이스</td>
+              <td>-</td>
+              <td>각 실별 파트 연습</td>
+            </tr>
+            <tr>
+              <td>10분</td>
+              <td>10:25:00</td>
+              <td>모임</td>
+              <td>모임 및 정렬</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>2분</td>
+              <td>10:35:00</td>
+              <td>대표기도</td>
+              <td>김주현 부회장</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>1분</td>
+              <td>10:37:00</td>
+              <td>사도신경</td>
+              <td>"전능하사 천지를..."</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>1분</td>
+              <td>10:38:00</td>
+              <td>도입</td>
+              <td>도입 멘트 및 예배 전환</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. 시나리오 및 연출 큐시트 본문 -->
+    <section class="card">
+      <h2 class="section-title">🎬 2. 종려주일 드라마/낭독 시나리오 전문 (대본 100% 수록)</h2>
+
+      <!-- 1. 창조 & 타락 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제1막: 창조 & 타락</span>
+          </div>
+          <span class="scene-time">시작 10:39:00</span>
+        </div>
+        <div class="script-box">
+태초에 하나님이 계셨습니다.
+
+하나님께서는 아무것도 없는 세상에 오직 말씀만으로 온 우주를 창조하셨습니다. 말씀으로 세상을 만드셨다는 것은, 하나님이 무에서 유를 창조하신 유일한 생명의 공급자라는 의미입니다.
+
+우리는 그 하나님의 말씀을 따라 사는 것으로 온 우주 만물을 누렸습니다.
+만물이 사람을 보고 하나님을 알아갔으며, 사람은 이 땅에서 하나님을 대신하는 대리 통치자였습니다.
+
+그러던 어느 날, 악의 세력이 속삭입니다.
+"이 선악과를 먹으면 너희 눈이 밝아져 선악을 알고 하나님처럼 될 거야."
+사람에겐 이 말이 거짓임을 알 만한 지혜와 능력이 있었습니다. 그러나 사람은 피조물임에도 하나님의 자리까지 욕심을 내어, 결국 선악과를 먹고 말았습니다.
+
+생명의 공급자이신 하나님을 떠난 사람은 결국 죽을 수밖에 없었습니다.
+살아있으나 죽은 것과 다름없는 비참한 존재가 된 인간.
+이제 누가 사람의 생명을 지킬 수 있을까요? 하나님 외에 누가 말씀만으로 우리를 다시 채워주실 수 있을까요? 사람에겐 더 이상 소망이 없었습니다.
+
+그러나 하나님께서는 우리를 깊이 사랑하셔서 끝내 포기하지 않으셨습니다.
+하나님은 아브라함을 부르시고, 그를 통해 한 민족을 세우십니다. 그들이 바로 이스라엘 민족입니다.
+
+이스라엘은 하나님의 축복을 온전히 누렸습니다. 12명의 아들은 곧 12개의 지파를 이루는 거대한 민족이 되었습니다.
+훗날 이스라엘이 애굽의 노예로 고통받을 때, 하나님은 그들을 위해 홍해를 갈라 건너게 하시고 쫓아오던 애굽 군대를 물에 잠기게 하셨습니다. 놀라운 구원을 경험한 이스라엘은 소리 높여 하나님을 찬양했습니다.
+
+이스라엘의 번성은 분명 하나님이 베푸신 은혜와 공급의 결과였습니다.
+이스라엘은 크게 번영하며 강대한 나라가 되었습니다.
+
+하지만 부유해진 이스라엘은 점차 하나님을 잊고 교만해지기 시작했습니다.
+온갖 악행과 음란으로 세상의 즐거움만을 쫓았습니다. 입으로는 하나님을 사랑한다고 하면서도, 자신의 이득을 위해 죽음이 난무하는 끔찍한 전쟁도 서슴지 않았습니다.
+생명의 근원인 하나님을 멀리한 이스라엘은 결국 멸망의 길을 걷게 됩니다.
+
+이스라엘은 여러 번의 위기를 겪었지만, 그때마다 회개하기보다는 자신의 이득을 먼저 계산했습니다. 멸망과 회복을 끝없이 반복하던 이스라엘을 향해, 결국 하나님은 마지막으로 이렇게 말씀하십니다.
+
+"(여기에 들어갈 성경 구절이나 하나님의 말씀을 채워주세요)"
+
+그 말씀을 끝으로, 하나님은 무려 400년 동안 이스라엘에게 아무런 답도 하지 않으셨습니다. 깊은 침묵의 시대가 시작된 것입니다.
+
+그러나, 하나님은 당신이 택하신 사람들을 결코 포기하지 않으셨습니다.
+        </div>
+      </div>
+
+      <!-- 2. 성탄 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제2막: 성탄 (소요 1분)</span>
+          </div>
+          <span class="scene-time">시작 10:39:00</span>
+        </div>
+        <div class="cue-grid">
+          <div class="cue-item"><strong>자막:</strong> "지극히 높은 곳에서는 하나님께 영광이요 땅에서는 하나님이 기뻐하신 사람들 중에 평화로다" (눅 2:14)</div>
+          <div class="cue-item"><strong>효과음:</strong> 아기 울음 소리</div>
+          <div class="cue-item"><strong>물품:</strong> 별</div>
+          <div class="cue-item"><strong>조명:</strong> 노란 빛</div>
+        </div>
+        <div class="script-box">
+하나님의 말씀이 끊어진 지 무려 400년.
+이스라엘의 하늘에는 짙은 어둠만이 깔려 있었습니다.
+세상을 지배하는 거대한 제국 로마의 짓밟힘 속에서, 이스라엘 백성들은 절망하며 부르짖었습니다.
+"하나님, 우리를 버리셨습니까? 우리를 구원할 왕은 언제 오십니까!"
+-
+그토록 캄캄하던 어느 밤, 베들레헴의 하늘 위로 거대한 별 하나가 떠오릅니다.
+가장 낮고 천한 말구유에서, 온 세상을 구원할 아기 예수님이 탄생하신 것입니다.
+그리고 삼십 년의 시간이 흘러... 마침내 예수님이 이스라엘 역사 한가운데로 걸어 나오셨습니다.
+-
+        </div>
+      </div>
+
+      <!-- 3. 기적 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제3막: 기적 (소요 3분)</span>
+          </div>
+          <span class="scene-time">시작 10:40:00</span>
+        </div>
+        <div class="cue-grid">
+          <div class="cue-item"><strong>물품:</strong> 붕대, 빵, 물고기</div>
+        </div>
+        <div class="script-box">
+예수님의 걸음이 닿는 곳마다 상상할 수 없는 일들이 벌어졌습니다.
+가장 먼저 물이 최고급 포도주로 변했습니다. 그것은 세상이 주는 일시적인 쾌락이 아닌, 하나님만이 주실 수 있는 결코 마르지 않는 기쁨의 선포였습니다.
+
+"이것 봐! 보리떡 다섯 개랑 물고기 두 마리뿐이었는데, 오천 명이 먹고도 남았어! 끊임없이 떡이 나오고 있다고!"
+
+과거 출애굽 시절, 광야에서 만나를 내려주셨던 그 하나님께서 이제는 직접 육신을 입고 오셔서, 우리의 굶주린 영혼을 채우는 영원한 '생명의 떡'이 되셨음을 확증하셨습니다. 기적은 여기서 끝이 아니었습니다.
+
+(군중 2 - 경악하며) "내가 두 눈으로 똑똑히 봤어! 저분이 바다를 꾸짖으시니, 그 무섭던 폭풍우가 순식간에 잠잠해졌어! 자연 만물조차 저분께 복종한다고!"
+
+(군중 3 - 감격에 겨워 울먹이며) "맹인 바디메오가 눈을 떴어! 평생 걷지 못하던 자가 뛰어다니고, 심지어... 심지어 무덤에 갇혀 썩어가던 나사로가 살아서 걸어 나왔어! 죽음을 이기셨다고!"
+-
+단순한 기적이 아니었습니다. 그것은 태초에 말씀으로 세상을 창조하셨던 창조주의 능력이었습니다. 병든 자가 고침을 받고, 죽은 자가 살아나며, 통곡이 가득했던 무덤가는 생명의 환희로 뒤덮였습니다.
+
+수백 년 동안 억눌려왔던 이스라엘 백성들의 심장이 터질 듯이 뛰기 시작했습니다.
+수많은 무리가 오직 '예수'라는 이름 아래 거대한 파도처럼 몰려들었습니다.
+로마의 압제에 지쳐있던 백성들부터, 칼을 품고 당장이라도 로마와 전쟁을 벌이려던 독립군 열심당까지! 모두가 예수를 자신들의 정치적 해방자로 삼으려 했습니다.
+
+그러나, 기득권을 쥐고 있던 종교 지도자들의 시선은 완전히 달랐습니다.
+우리가 제일 경건하다며 목에 힘을 주던 교만한 바리새파.
+부활도 천국도 없이 오직 현실의 권력만 쫓던 사두개파.
+그들은 예수님을 향한 백성들의 폭발적인 환호를 보며 지독한 시기심과 두려움에 휩싸였습니다. 그들은 생명의 주님을 인정하기는커녕, 어떻게든 예수를 십자가에 못 박아 죽일 어두운 음모를 꾸미고 있었습니다.
+
+그들의 차가운 살기에도 불구하고, 예수를 향한 군중들의 맹목적인 열광은 멈추지 않았습니다.
+
+"저 능력이면 충분하다! 저 기적이면 로마의 군대를 단숨에 쓸어버릴 수 있어!"
+"맞아! 저분이야말로 우리를 해방시킬 다윗의 자손이다! 우리의 위대한 왕이다!"
+        </div>
+      </div>
+
+      <!-- 4. 예루살렘 입성 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제4막: 예루살렘 입성 (소요 3분)</span>
+          </div>
+          <span class="scene-time">시작 10:43:00</span>
+        </div>
+        <div class="cue-grid">
+          <div class="cue-item"><strong>물품:</strong> 종려나무 가지</div>
+        </div>
+        <div class="script-box">
+마침내! 온 이스라엘의 엄청난 기대와 욕망을 한 몸에 업으신 예수님께서, 이스라엘의 심장인 예루살렘 성문 앞에 서셨습니다! 수만 명의 인파가 쏟아져 나왔습니다! 사람들은 왕의 행차에 깔아드리는 가장 귀한 겉옷을 길바닥에 내던졌습니다!
+
+전쟁에서 승리한 위대한 정복자를 맞이할 때 흔드는 그 종려나무 가지를 미친 듯이 흔들며 온 힘을 다해 부르짖었습니다!
+
+"호산나! 호산나! 다윗의 자손이여! 우리를 구원하소서! 이스라엘의 왕이시여!"
+
+이스라엘은 확신했습니다! 저 압도적인 능력을 가진 예수가 드디어 저 악독한 로마를 박살 내고, 이스라엘을 세계에서 가장 강력한 나라로 만들어 줄 것이라고!
+
+세상을 뒤집어엎을 위대한 왕의 탄생을 축하하는 거대한 환호성이, 종교 지도자들의 음모가 도사리고 있는 예루살렘의 거대한 성벽을 뒤흔들고 있었습니다!
+        </div>
+      </div>
+
+      <!-- 5. 향유옥합 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제5막: 향유옥합 (소요 1분)</span>
+          </div>
+          <span class="scene-time">시작 10:46:00</span>
+        </div>
+        <div class="cue-grid">
+          <div class="cue-item"><strong>효과음:</strong> 항아리 깨지는 소리</div>
+          <div class="cue-item"><strong>물품:</strong> 향유옥합</div>
+        </div>
+        <div class="script-box">
+예루살렘을 뒤흔들었던 환호성이 지나가고 고요한 밤이 되었습니다.
+예수님의 발걸음은 한없이 무겁고 외로우셨습니다.
+자신을 향해 쏟아지던 사람들의 엇갈린 시선 속에서 예수님은 제자들과 함께했던 시간들이 떠오르셨을 것입니다.
+-
+"내가 예루살렘에 올라가... 고난을 받고 마침내 죽임을 당할 것이다."
+"주님! 제정신이십니까? 죽다니요! 그런 일은 결코 일어날 수 없습니다! 우리가 어떻게 여기까지 왔는데, 이제 와서 죽음을 말씀하십니까!"
+
+베드로는 십자가의 길을 가려는 예수님을 도리어 꾸짖었습니다. 그는 영원한 생명이 아닌, 세상의 영광만을 바라고 있었습니다.
+-
+"형님, 예루살렘에 입성해서 주님이 왕좌에 앉으시면, 우리 두 형제가 양옆에 앉아 이인자가 되어야 하지 않겠소?"
+"말도 안 돼! 내가 먼저야! 내가 제일 많이 고생했다고!"
+
+예수님은 우리의 죄를 씻기 위해 죽음의 길을 걷고 계셨지만, 제자들은 이스라엘 국가에서 누가 더 높은 자리에 앉을 것인가를 두고 서로 핏대를 세우며 다투고 있었습니다. 철저한 고독이었습니다.
+-
+한 여인만이 예수님을 이해했습니다. 그 여인은 값비싼 향유가 담긴 옥합을 깨뜨렸습니다. 그녀는 예수님의 발치에 엎드려 눈물을 흘리며, 자신의 머리카락으로 예수님의 발을 닦고 있었습니다. 그 여인만이 예수님의 죽음을 이해했습니다. 그때 제자였던 유다는 말합니다.
+
+"이 무슨 짓이오! 이 비싼 것을 팔면 가난한 자들을 먹일 수 있는데, 어찌 허비한단 말이오!"
+
+모두가 세속의 왕을 원할 때, 오직 깨어진 옥합의 향기만이... 묵묵히 십자가로 향하시는 대속의 예수님을 위로합니다.
+-
+아무도 예수님을 이해하지 못했습니다..
+        </div>
+      </div>
+
+      <!-- 6. 성찬 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제6막: 성찬 (소요 2분)</span>
+          </div>
+          <span class="scene-time">시작 10:47:00</span>
+        </div>
+        <div class="cue-grid">
+          <div class="cue-item"><strong>효과음:</strong> 잔, 빵을 나누는 소리</div>
+          <div class="cue-item"><strong>물품:</strong> 빵과 포도주</div>
+        </div>
+        <div class="script-box">
+예수님께서 십자가에 못 박히시기 전, 마지막 밤이 되었습니다. 예수님은 친히 허리에 수건을 두르시고, 제자들의 발을 한 명 한 명 닦아주셨습니다. 그리고 자신의 살과 피를 상징하는 떡과 잔을 나누어 주셨습니다. 가장 낮아진 모습으로 끝없는 사랑을 베푸셨지만... 제자 중 하나였던 가룟 유다의 마음속에는 이미 스승을 팔아넘길 어두운 계획이 자리 잡고 있었습니다.
+
+"고작... 발이나 씻기고, 자신의 살과 피를 먹으라고? 내가 기대한 건 이런 게 아니었어! 로마 군대를 몰아내고 이 썩어빠진 나라를 뒤엎을, 그 강력한 혁명을 기대했건만! 저 예수는 이제 끝났다. 스스로 죽음을 말하는 자에게, 이스라엘의 미래는 없어!"
+
+세상의 권력을 기대했던 유다에게, 십자가를 향해 가는 스승은 그저 실패자에 불과했습니다. 예수님은 유다의 배신을 모두 아시면서도, 그를 향해 조용히 말씀하셨습니다. "네가 하고자 하는 일을 속히 하라." 그 말씀이 선포되자, 유다는 미련 없이 자리에서 일어났습니다. 그는 자신의 스승을 넘겨주기 위해, 짙은 어둠을 뚫고 대제사장들에게 달려갔습니다.
+        </div>
+      </div>
+
+      <!-- 7. 겟세마네 동산 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제7막: 겟세마네 동산 (소요 4분)</span>
+          </div>
+          <span class="scene-time">시작 10:49:00</span>
+        </div>
+        <div class="cue-grid">
+          <div class="cue-item"><strong>효과음:</strong> 기도소리 + 군사 발걸음 소리</div>
+          <div class="cue-item"><strong>물품:</strong> 동산(풀숲) + 기도자(예수님), 채찍, 가시면류관, 물대야 + 핏물?, 십자가</div>
+        </div>
+        <div class="script-box">
+유다가 떠난 후, 예수님은 겟세마네 동산에 올라가셨습니다.
+십자가의 끔찍한 고통을 앞두고 제자들에게 깨어 기도해 달라고 부탁하셨지만, 제자들은 피곤을 이기지 못하고 모두 깊은 잠에 빠져들었습니다.
+예수님은 홀로, 땀방울이 핏방울이 되도록 땅에 엎드려 기도하십니다.
+
+"아버지... 나의 아버지...! 만일 할 수만 있으시거든... 만일 할 수만 있으시거든, 이 고난의 잔을 내게서 지나가게 하옵소서..."
+
+예수님은 다가올 일들을 모두 알고 계셨습니다.
+이제 곧 은 30세겔에 자신을 판 유다가 무장한 군병들을 이끌고 올 것입니다.
+손발이 묶인 채 뜰로 끌려가, 뼈가 드러나도록 무자비한 채찍질을 당할 것입니다.
+머리에는 생살을 파고드는 가시 면류관이 씌워질 것이고,
+며칠 전 '호산나'를 외치며 환호하던 바로 그 백성들이, 이제는 침을 뱉고 돌을 던지며 조롱할 것입니다.
+그리고 마침내... 끔찍한 십자가에 못 박혀 온몸의 피와 물을 쏟게 되실 것입니다.
+
+예수님은 선택하실 수 있었습니다.
+당장이라도 이 겟세마네 동산을 벗어나, 이전처럼 기적을 행하고 군대들을 물리치며 세상의 왕이 되실 능력이 있으셨습니다.
+마음만 먹으면 이 모든 끔찍한 고통을 피할 수 있었습니다!
+
+그러나... 찢어지는 고통 속에서, 예수님은 십자가를 향해 기도를 이어가십니다.
+
+"그러나... 나의 원대로 마시옵고, 아버지의 원대로 하옵소서.
+나의 뜻이 꺾이고, 오직 아버지의 뜻만이 이루어지기를 원하나이다.
+...제가 그 잔을 마시겠나이다."
+
+순종의 기도가 끝남과 동시에, 저 멀리서 횃불을 든 군병들이 들이닥칩니다.
+우리를 살리기 위해 자신의 모든 뜻을 꺾으신 예수님은, 그렇게... 죽음의 십자가를 향해 끌려가십니다.
+        </div>
+      </div>
+
+      <!-- 8. 결단 및 메시지 정리 -->
+      <div class="scene-card">
+        <div class="scene-header">
+          <div class="scene-title-group">
+            <span class="scene-title">제8막: 메시지 정리 및 찬양 인비테이션 (소요 4분)</span>
+          </div>
+          <span class="scene-time">시작 10:53:00</span>
+        </div>
+        <div class="script-box">
+방금 전, 우리는 겟세마네 동산에서 십자가를 향해 끌려가시는 예수님의 외로운 뒷모습을 보았습니다.
+
+오늘은 종려주일입니다.
+방금 우리가 스크린을 통해 보았던 것처럼, 예루살렘 입성은 겉으로는 세상의 왕을 맞이하는 승리의 행진이었지만, 영적으로는 우리의 죄를 대신 짊어지러 가시는 예수님의 묵묵한 장례 행렬과도 같았습니다.
+
+여러분은 평소에 예수님의 생애와 십자가를 얼마나 깊이 묵상하며 살아가고 계십니까?
+
+우리가 입술로는 예수님을 믿는다고 말하면서도, 여전히 나의 즐거움만 찾고 당장 눈앞의 이득만을 좇아 살아간다면... 우리는 로마로부터의 해방만을 원하며 "호산나"를 외치다 끝내 예수님을 버렸던 이스라엘 백성들과 조금도 다를 바가 없을 것입니다. 내 이익을 위해 예수님을 수단으로 삼으려 했던 제자들의 모습이, 곧 우리의 모습입니다.
+
+그러나, 하나님은 그렇게 이기적이고 연약한 우리를 결코 포기하지 않으셨습니다.
+우리를 살리시기 위해, 아들 예수 그리스도께서 십자가의 고난을 마다하지 않고 그 길을 끝까지 걸어가게 하셨습니다.
+
+오늘 종려주일을 기점으로, 내일부터는 예수님의 오심과 십자가의 죽으심을 깊이 묵상하는 고난주간이 시작됩니다.
+일 년 중 단 한 주라도 좋습니다. 나를 위해 살이 찢기고 피를 흘리신 예수님의 그 십자가 사랑을 가슴 깊이 새기고 묵상하는 거룩한 한 주가 되기를 소망합니다.
+
+이 시간, 십자가의 진짜 의미를 기억하며, 우리의 참된 왕이신 예수님께 "호산나, 우리를 구원하소서"라는 진실한 고백을 담아 다 함께 찬송가 141장 하나님께 올려드리고 예배를 마치겠습니다.
+        </div>
+      </div>
+
+      <!-- 9. 마무리 예배 식순 -->
+      <div class="table-wrapper" style="margin-top:16px;">
+        <table>
+          <thead>
+            <tr>
+              <th>소요</th>
+              <th>시작시간</th>
+              <th>순서</th>
+              <th>내용 / 세부 행동</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>4분</td>
+              <td>10:57:00</td>
+              <td>찬송가</td>
+              <td>찬송가 141장 다 같이 찬양</td>
+              <td>전 회중 기립</td>
+            </tr>
+            <tr>
+              <td>2분</td>
+              <td>11:01:00</td>
+              <td>기도</td>
+              <td>결단 기도</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>1분</td>
+              <td>11:03:00</td>
+              <td>주기도문</td>
+              <td>다 함께 주기도문으로 1부 예배 마침</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>60분</td>
+              <td>11:04:00</td>
+              <td>2부 순서</td>
+              <td>반별 결단 및 고난주간 묵상 나눔</td>
+              <td>분반 공부실로 이동</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

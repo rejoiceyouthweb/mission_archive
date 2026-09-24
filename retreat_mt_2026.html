@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 청소년 1부 공동체 MT</title>
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-dark: #047857;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --badge-green-bg: #d1fae5;
+      --badge-green-txt: #065f46;
+      --badge-amber-bg: #fef3c7;
+      --badge-amber-txt: #92400e;
+      --badge-blue-bg: #dbeafe;
+      --badge-blue-txt: #1e40af;
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); padding: 24px 16px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 1040px; }
+
+    /* 네비게이션 */
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .btn-back {
+      padding: 8px 14px;
+      background-color: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover { background-color: #f1f5f9; color: var(--text-main); }
+
+    /* 히어로 배너 */
+    .hero-banner {
+      background: linear-gradient(135deg, #047857, #10b981);
+      color: #ffffff;
+      padding: 30px 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+      margin-bottom: 24px;
+    }
+    .hero-tag { display: inline-block; padding: 4px 10px; background: rgba(255, 255, 255, 0.25); border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; }
+    .hero-title { font-size: 1.85rem; font-weight: 800; margin-bottom: 8px; }
+    .hero-desc { font-size: 0.95rem; opacity: 0.95; line-height: 1.5; }
+
+    /* 탭 바 */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      white-space: nowrap;
+      padding: 10px 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: var(--primary-dark);
+      color: #fff;
+      border-color: var(--primary-dark);
+      box-shadow: 0 2px 4px rgba(4, 120, 87, 0.25);
+    }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* 카드 */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+
+    /* 그리드 */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .info-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .info-label { font-size: 0.82rem; color: var(--text-sub); margin-bottom: 4px; }
+    .info-val { font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+
+    /* 테이블 */
+    .table-wrapper { overflow-x: auto; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left; }
+    th, td { padding: 12px 14px; border: 1px solid var(--border); vertical-align: middle; }
+    th { background-color: #f8fafc; color: var(--text-sub); font-weight: 700; white-space: nowrap; }
+
+    /* 미션 카드 그리드 */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .mission-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      background: #ffffff;
+      border-top: 4px solid var(--primary);
+    }
+    .mission-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .mission-num { font-size: 0.8rem; font-weight: 800; background: var(--badge-green-bg); color: var(--badge-green-txt); padding: 2px 8px; border-radius: 4px; }
+    .mission-loc { font-size: 0.82rem; font-weight: 700; color: #1e40af; background: var(--badge-blue-bg); padding: 2px 8px; border-radius: 4px; }
+    .mission-name { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
+    .mission-leader { font-size: 0.85rem; font-weight: 600; color: var(--text-sub); margin-bottom: 8px; }
+    .mission-desc { font-size: 0.88rem; color: #334155; line-height: 1.6; }
+
+    /* 강조 및 규칙 배너 */
+    .rule-banner {
+      background: #ecfdf5;
+      border-left: 4px solid var(--primary);
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #065f46;
+      margin-bottom: 16px;
+    }
+    .rule-banner strong { color: #047857; }
+
+    .warning-box {
+      background: #fffbeb;
+      border: 1px solid #fef3c7;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #92400e;
+      margin-top: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 내비 -->
+    <div class="nav-bar">
+      <button class="btn-back" onclick="location.href='main.html'">← 사역 목록으로 돌아가기</button>
+      <span style="font-size: 0.9rem; color: var(--text-sub); font-weight: 600;">2026 청소년 1부 사역 아카이브</span>
+    </div>
+
+    <!-- 히어로 배너 -->
+    <header class="hero-banner">
+      <div class="hero-tag">행복한 베들레헴 교회 청소년 1부[cite: 6]</div>
+      <h1 class="hero-title">2026 청소년 1부 공동체 MT[cite: 6]</h1>
+      <p class="hero-desc">
+        "기도하고, 함께 웃고, 하나님 안에서 하나 되는 우리! 좋은 사람들과 좋은 추억을 만들자!"[cite: 6]
+      </p>
+    </header>
+
+    <!-- 탭 내비게이션 -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('tab-info')">1. MT 개요 & 타임테이블</button>
+      <button class="tab-btn" onclick="showTab('tab-rec-final')">2. 이동형 레크리에이션 (최종 확정안)</button>
+      <button class="tab-btn" onclick="showTab('tab-rec-alt')">3. 레크리에이션 (1차/대체 기획안)</button>
+    </nav>
+
+    <!-- 1. MT 안내 및 전체 프로그램 -->
+    <section id="tab-info" class="tab-pane active">
+      <div class="card">
+        <h2 class="section-title">📍 MT 기본 개요[cite: 6]</h2>
+        <div class="info-grid">
+          <div class="info-box">
+            <div class="info-label">일시[cite: 6]</div>
+            <div class="info-val">8월 29일(토) 오전 11시 ~ 저녁 8시 30분[cite: 6]</div>
+          </div>
+          <div class="info-box">
+            <div class="info-label">장소[cite: 6]</div>
+            <div class="info-val">블레싱 홀 (청소년 1부 예배실)[cite: 6]</div>
+          </div>
+          <div class="info-box">
+            <div class="info-label">준비물[cite: 6]</div>
+            <div class="info-val">회비 1만원, 성경책, 기대하는 마음[cite: 6]</div>
+          </div>
+          <div class="info-box">
+            <div class="info-label">회비 입금계좌[cite: 6]</div>
+            <div class="info-val">카카오뱅크 3333-36-2000174 (양기옥)[cite: 6]</div>
+          </div>
+        </div>
+        <div style="background:#f8fafc; border:1px solid var(--border); padding:12px 16px; border-radius:8px; font-size:0.9rem; color:var(--text-sub); line-height:1.5;">
+          * 학원 일정이 있는 친구들은 중간에 참석해도 괜찮습니다![cite: 6]<br>
+          * 회비는 반드시 <strong>본인(학생) 이름</strong>으로 입금 부탁드립니다.[cite: 6]<br>
+          * 문의: 송세찬 전도사님(010-3129-8050) / 김재호 부장선생님(010-9928-9703)[cite: 6]
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">⏱️ 당일 프로그램 타임테이블[cite: 6]</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>시간대[cite: 6]</th>
+                <th>프로그램명[cite: 6]</th>
+                <th>세부 슬로건 및 내용[cite: 6]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>11:00 ~ 12:00</strong>[cite: 6]</td>
+                <td>점심 식사[cite: 6]</td>
+                <td>"맛있게 먹고 힘내자!"[cite: 6]</td>
+              </tr>
+              <tr>
+                <td><strong>12:00 ~ 15:00</strong>[cite: 6]</td>
+                <td>레크리에이션[cite: 6]</td>
+                <td>
+                  "주 안에서 즐겁게 하나 되는 시간"[cite: 6]<br>
+                  • 12:00~13:00 청소년 1부 예배실 팀별 레크리에이션[cite: 4, 7]<br>
+                  • 13:00~14:30 '찾아라! 그리고 획득해라!' 이동형 레크리에이션[cite: 4, 7]
+                </td>
+              </tr>
+              <tr>
+                <td><strong>15:00 ~ 15:30</strong>[cite: 6]</td>
+                <td>쉬는 시간[cite: 6]</td>
+                <td>"맛있는 간식 먹자"[cite: 6]</td>
+              </tr>
+              <tr>
+                <td><strong>15:30 ~ 17:00</strong>[cite: 6]</td>
+                <td>흑백 요리사[cite: 6]</td>
+                <td>"재료 쟁탈전에서 재료를 획득하고, 우리 팀만의 요리를 완성하라!"[cite: 6]</td>
+              </tr>
+              <tr>
+                <td><strong>17:00 ~ 18:00</strong>[cite: 6]</td>
+                <td>저녁 식사[cite: 6]</td>
+                <td>"우리가 만든 음식을 함께 냠냠"[cite: 6]</td>
+              </tr>
+              <tr>
+                <td><strong>18:00 ~ 20:30</strong>[cite: 6]</td>
+                <td>예배 시간[cite: 6]</td>
+                <td>"신나게 찬양하고 말씀 듣고 뜨겁게 기도하자"[cite: 6]</td>
+              </tr>
+              <tr>
+                <td><strong>20:30</strong>[cite: 6]</td>
+                <td>귀가[cite: 6]</td>
+                <td>정리 및 안전 귀가[cite: 6]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 이동형 레크리에이션 (최종 확정안) -->
+    <section id="tab-rec-final" class="tab-pane">
+      <div class="card">
+        <h2 class="section-title">🎯 이동형 레크: "찾아라! 그리고 획득해라!" (최종안)[cite: 7]</h2>
+        
+        <div class="rule-banner">
+          <strong>[운영 지침 및 미션 규칙]</strong><br>
+          1. <strong>선생님 이동:</strong> 12:00~13:00 팀별 레크 후, 선생님들은 <strong>12:40에 각 장소로 미션 준비하러 출발</strong>[cite: 7]<br>
+          2. <strong>미션 수행 및 보상:</strong> 아이들이 장소를 찾아가 미션을 성공하면 <strong>준비된 종이를 1장씩 지급</strong> (블레싱홀에 다 모일 때까지 종이를 펴보지 말라고 안내)[cite: 7]<br>
+          3. <strong>실패 시:</strong> 미션에 실패하면 다시 돌려보내 다른 미션을 도전하고 재도전할 수 있도록 함[cite: 7]<br>
+          4. <strong>종료 조건:</strong> 모든 미션을 마친 팀은 <strong>블레싱홀로 복귀</strong> (전도사님 대기), <strong>3개 팀이 모이면 게임 종료</strong> (카톡 공유)[cite: 7]<br>
+          5. <strong>소요 시간:</strong> 모든 게임은 <strong>10분 이내</strong>로 신속히 진행[cite: 4]
+        </div>
+
+        <div class="mission-grid">
+          <!-- 1. 미각 왕 -->
+          <div class="mission-card">
+            <div class="mission-head">
+              <span class="mission-num">미션 1</span>
+              <span class="mission-loc">자모실 1[cite: 7]</span>
+            </div>
+            <div class="mission-name">내가 바로 미각왕![cite: 9]</div>
+            <div class="mission-leader">담당: 김명옥 선생님[cite: 7]</div>
+            <div class="mission-desc">
+              1. 여러 가지 과자를 부셔서 종이컵에 담음[cite: 7]<br>
+              2. 아이들이 먹으면서 무슨 과자 인지 과자 이름을 다 맞추면 성공[cite: 7]<br>
+              3. 제한시간: 3분[cite: 7]
+            </div>
+          </div>
+
+          <!-- 2. 팡야! 팡야! -->
+          <div class="mission-card">
+            <div class="mission-head">
+              <span class="mission-num">미션 2</span>
+              <span class="mission-loc">선교 역사관 앞 (1층 로비)[cite: 7]</span>
+            </div>
+            <div class="mission-name">팡야! 팡야![cite: 7, 9]</div>
+            <div class="mission-leader">담당: 송진영 선생님[cite: 7]</div>
+            <div class="mission-desc">
+              1. 아이들이 랜덤으로 총을 선택 (좋은 총부터 작은 총까지)[cite: 7]<br>
+              2. 멀리 있는 화이트 보드에 총을 쏴서 일정 점수 이상을 내야 함[cite: 7]<br>
+              <em>* 사전 테스트를 거쳐 구체적인 점수 산정 기준 확정[cite: 7]</em>
+            </div>
+          </div>
+
+          <!-- 3. 손끝 감각으로 -->
+          <div class="mission-card">
+            <div class="mission-head">
+              <span class="mission-num">미션 3</span>
+              <span class="mission-loc">실버실[cite: 7]</span>
+            </div>
+            <div class="mission-name">손끝 감각으로[cite: 7, 9]</div>
+            <div class="mission-leader">담당: 김재호 선생님[cite: 7]</div>
+            <div class="mission-desc">
+              1. 아이들에게 병뚜껑을 하나씩 고르게 함[cite: 7]<br>
+              2. 병뚜껑을 손으로 쳐서 정해진 라인 안쪽에 <strong>2명 이상</strong> 들어가면 성공[cite: 7]
+            </div>
+          </div>
+
+          <!-- 4. 우린 한 몸 -->
+          <div class="mission-card">
+            <div class="mission-head">
+              <span class="mission-num">미션 4</span>
+              <span class="mission-loc">유치부실[cite: 8]</span>
+            </div>
+            <div class="mission-name">우린 한 몸![cite: 8, 9]</div>
+            <div class="mission-leader">담당: 장명근 선생님[cite: 8]</div>
+            <div class="mission-desc">
+              1. 팀원들끼리 손을 잡고 원을 그리며 서 있음[cite: 8]<br>
+              2. 10초 간격으로 아이들 가운데로 풍선을 한 개씩 던져줌 (최대 5개까지 투입)[cite: 8]<br>
+              3. 풍선을 떨어뜨리지 않고 손, 머리, 몸, 발을 사용해 계속 띄움[cite: 8]<br>
+              4. 떨어진 풍선은 즉시 탈락 및 제거[cite: 8]<br>
+              5. <strong>3분 동안 풍선 3개 이상</strong>을 끝까지 살려내면 성공[cite: 8]
+            </div>
+          </div>
+
+          <!-- 5. 몸으로 말해요 -->
+          <div class="mission-card">
+            <div class="mission-head">
+              <span class="mission-num">미션 5</span>
+              <span class="mission-loc">청소년 3부실[cite: 8]</span>
+            </div>
+            <div class="mission-name">몸으로 말해요![cite: 8, 9]</div>
+            <div class="mission-leader">담당: 박창범 선생님[cite: 8]</div>
+            <div class="mission-desc">
+              1. 대표를 1명 뽑거나, 돌아가면서 문제를 출제[cite: 8]<br>
+              2. 다양한 주제에 대한 스케치북 중 랜덤으로 1개 선택[cite: 8]<br>
+              3. 스케치북에 쓰여진 제시어를 오직 몸으로만 설명하고 팀원이 맞춤[cite: 8]<br>
+              4. <strong>제한시간 3분 내에 10문제</strong> 맞추기 (패스 1번 가능)[cite: 8]
+            </div>
+          </div>
+
+          <!-- 6. 찰칵찰칵 -->
+          <div class="mission-card">
+            <div class="mission-head">
+              <span class="mission-num">미션 6</span>
+              <span class="mission-loc">영아부실[cite: 8]</span>
+            </div>
+            <div class="mission-name">찰칵! 찰칵![cite: 8, 9]</div>
+            <div class="mission-leader">담당: 방은주 선생님[cite: 8]</div>
+            <div class="mission-desc">
+              1. 여러 사진 중에 랜덤으로 사진 2장을 뽑음[cite: 8]<br>
+              <em>(첫 번째 사진에 도전한 친구들을 제외하고, 두 번째 사진은 새로운 친구들이 도전 / 인원 부족 시 중복 허용)[cite: 8]</em><br>
+              2. 사진 속 포즈와 똑같은 포즈로 사진을 촬영하면 성공[cite: 8]<br>
+              3. 제한시간: 5분 이내[cite: 8]
+            </div>
+          </div>
+
+          <!-- 7. 명탐정 코난! -->
+          <div class="mission-card">
+            <div class="mission-head">
+              <span class="mission-num">미션 7</span>
+              <span class="mission-loc">통일소망 선교부실 (청3 안쪽 방)[cite: 8]</span>
+            </div>
+            <div class="mission-name">명탐정 코난![cite: 8, 9]</div>
+            <div class="mission-leader">담당: 정행복 선생님[cite: 8]</div>
+            <div class="mission-desc">
+              1. 여러 가지 소품이 놓여있는 방을 먼저 둘러보게 함 (2분)[cite: 8]<br>
+              2. 아이들을 밖으로 나가게 한 뒤 선생님이 물건들의 위치를 변경[cite: 8]<br>
+              3. <strong>제한시간 2분 내에 바뀐 10개 중 7개</strong>를 찾아 맞추면 성공[cite: 8]<br>
+              <em>* 담당 선생님 옷이나 안경 등 개인 소품 2~3개 활용[cite: 8]</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          📢 <strong>[미션 완수 규칙]</strong> 미션에 성공하여 총 7개의 단어를 모아 문장을 완성해야 최종 승리합니다![cite: 4]<br>
+          "미션에 실패해도 팀원들끼리 NO원망! NO비난! NO불평!"[cite: 9]
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 레크리에이션 (1차/대체 기획안) -->
+    <section id="tab-rec-alt" class="tab-pane">
+      <div class="card">
+        <h2 class="section-title">📝 레크리에이션 초기 기획안 (물총/야외/대체 종목)[cite: 4, 5]</h2>
+        <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:12px;">
+          초기 야외(주차장/축구장) 기반으로 수립되었던 종목 기획안 아카이브입니다.[cite: 4, 5]
+        </p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>순번[cite: 4, 5]</th>
+                <th>게임명[cite: 4, 5]</th>
+                <th>장소[cite: 4, 5]</th>
+                <th>진행 방법 및 세부 규칙[cite: 4, 5]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1[cite: 4]</td>
+                <td>미각 왕[cite: 4]</td>
+                <td>자모실[cite: 4]</td>
+                <td>여러 과자를 부셔서 종이컵에 담아 맛만 보고 과자 이름 맞추기[cite: 4]</td>
+              </tr>
+              <tr>
+                <td>2[cite: 4]</td>
+                <td>팡야! 팡야![cite: 4]</td>
+                <td>주차장 (화장실 인근, 급수 가능 구역)[cite: 4]</td>
+                <td>랜덤 물총(소형~대형)을 골라 50M 거리의 빈 페트병을 모두 쓰러트리면 성공 (개인전 후 다함께 발사)[cite: 4]</td>
+              </tr>
+              <tr>
+                <td>3[cite: 4]</td>
+                <td>흠뻑쑈 (던지고 받기!)[cite: 4]</td>
+                <td>주차장 (카페 쪽)[cite: 4]</td>
+                <td>구멍 뚫린 소쿠리로 팀원이 던진 물풍선 받기 (물풍선 불가 시 신발 던지기로 대체)[cite: 4]</td>
+              </tr>
+              <tr>
+                <td>4[cite: 5]</td>
+                <td>으path으path[cite: 5]</td>
+                <td>4층 축구장[cite: 5]</td>
+                <td>서로 줄을 하나씩 잡고 컵을 들어 옮겨 3분 내에 컵 피라미드 완성하기[cite: 5]</td>
+              </tr>
+              <tr>
+                <td>5[cite: 5]</td>
+                <td>몸으로 말해요[cite: 5]</td>
+                <td>영아부실[cite: 5]</td>
+                <td>스케치북 제시어 몸으로 설명, 3분 내 10문제 맞추기[cite: 5]</td>
+              </tr>
+              <tr>
+                <td>6[cite: 5]</td>
+                <td>찰칵찰칵[cite: 5]</td>
+                <td>유치부실[cite: 5]</td>
+                <td>난이도 1, 2, 3 단계별 사진과 똑같은 포즈로 사진 촬영하기[cite: 5]</td>
+              </tr>
+              <tr>
+                <td>7[cite: 5]</td>
+                <td>명탐정 코난![cite: 5]</td>
+                <td>3층 휴게실[cite: 5]</td>
+                <td>소품 방 둘러본 후 선생님이 바꾼 물건 위치 모두 찾아내기[cite: 5]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

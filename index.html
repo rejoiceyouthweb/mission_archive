@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>청소년 1부 사역 리뷰</title>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* 헤더 */
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .sub-title {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .main-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    /* 연도 선택 컨트롤 바 */
+    .control-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--card-bg);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .year-select {
+      padding: 10px 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: #fff;
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .year-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+
+    .btn-enter {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-enter:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* 사역 상태 헤더 */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 0 4px;
+    }
+
+    .current-year-label {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .count-label {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
+    /* 사역 버튼 그리드 (모바일 1열, 태블릿 2열, PC 3열) */
+    .ministry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .ministry-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      color: var(--text-main);
+      font-size: 1.02rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .ministry-btn:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      color: var(--primary-color);
+    }
+
+    .ministry-btn::after {
+      content: "→";
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .ministry-btn:hover::after {
+      color: var(--primary-color);
+      transform: translateX(3px);
+    }
+
+    /* 반응형 여백 조절 */
+    @media (max-width: 480px) {
+      .main-title {
+        font-size: 1.7rem;
+      }
+      .control-box {
+        flex-direction: row;
+      }
+      .ministry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 헤더 -->
+    <header>
+      <div class="sub-title">사역 아카이브 & 리뷰 시스템</div>
+      <h1 class="main-title">청소년 1부</h1>
+    </header>
+
+    <!-- 연도 선택 및 진입 컨트롤 -->
+    <div class="control-box">
+      <label for="yearSelect" style="font-weight: 600; color: var(--text-sub);">연도 선택:</label>
+      <select id="yearSelect" class="year-select">
+        <option value="2025">2025년</option>
+        <option value="2026" selected>2026년</option>
+        <option value="2027">2027년</option>
+        <option value="2028">2028년</option>
+        <option value="2029">2029년</option>
+        <option value="2030">2030년</option>
+      </select>
+      <button id="btnEnter" class="btn-enter" type="button">조회 (Enter)</button>
+    </div>
+
+    <!-- 사역 항목 메뉴 목록 -->
+    <section>
+      <div class="section-header">
+        <h2 id="currentYearDisplay" class="current-year-label">2026년 사역 목록</h2>
+        <span class="count-label">총 18개 사역</span>
+      </div>
+
+      <div class="ministry-grid" id="ministryGrid">
+        <!-- JS로 동적 생성되거나 기본 정적 버튼으로 배치 -->
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // 18개 핵심 사역 목록
+    const ministryList = [
+      "새학년 시작",
+      "동계 수련회",
+      "학부모 설명회",
+      "대심방",
+      "크리스챤 선서식",
+      "개강 챌린지",
+      "종려주일",
+      "교사강습회",
+      "야외예배",
+      "시험 위로 (학교 심방, 선물)",
+      "세례와 헌약식",
+      "체육대회",
+      "하계 수련회",
+      "공동체 MT",
+      "사역팀 킥오프",
+      "홀리나잇",
+      "청3섬김",
+      "성탄발표회"
+    ];
+
+    const yearSelect = document.getElementById("yearSelect");
+    const btnEnter = document.getElementById("btnEnter");
+    const currentYearDisplay = document.getElementById("currentYearDisplay");
+    const ministryGrid = document.getElementById("ministryGrid");
+
+    let activeYear = yearSelect.value;
+
+	// 1. 연도 및 사역별 상세 페이지 링크 매핑 테이블
+	// 새 페이지를 만들 때마다 이 목록에 파일명을 한 줄씩 추가하시면 됩니다.
+	const pageLinks = {
+	  "2026": {
+		"새학년 시작": "new_semester_2026.html",
+		"동계 수련회": "winter_retreat_2026.html",
+		"학부모 설명회": "parents_orientation_2026.html",
+		"대심방": "simbang_2026.html",
+		"야외예배": "outdoor_worship_2026.html",
+		"크리스챤 선서식": "christian_pledge_2026.html",
+		"개강 챌린지": "semester_challenge_2026.html",
+		"종려주일": "palm_sunday_2026.html",
+		"체육대회": "sports_2026.html",
+		"시험 위로 (학교 심방, 선물)": "exam_2026.html",
+		"세례와 헌약식": "baptism_pledge_2026.html",
+		"공동체 MT": "retreat_mt_2026.html",
+		"사역팀 킥오프": "ministry_kickoff_2026.html",
+		"교사강습회": "teacher_training_2026.html",
+		"하계 수련회": "summer_retreat_2026.html",
+	  },
+	  "2025": {
+		 "하계 수련회": "summer_retreat_2025.html"
+	  }
+	};
+
+    // 사역 버튼 목록 렌더링
+    function renderMinistryButtons(year) {
+      currentYearDisplay.textContent = `${year}년 사역 목록`;
+      ministryGrid.innerHTML = "";
+
+      ministryList.forEach((item) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "ministry-btn";
+        button.textContent = item;
+        
+        // 상세 페이지 연결 이벤트 (현재는 구상 단계이므로 안내 메시지 및 쿼리 파라미터 예시 준비)
+        button.addEventListener("click", () => {
+          handleMinistryClick(year, item);
+        });
+
+        ministryGrid.appendChild(button);
+      });
+    }
+
+    // 사역 버튼 클릭 핸들러 (향후 상세 페이지/모달 구상 시 확장)
+	// 2. 사역 버튼 클릭 핸들러 수정
+	function handleMinistryClick(year, ministryName) {
+	  // 해당 연도와 사역명에 등록된 HTML 파일 경로가 있는지 확인
+	  const targetPage = pageLinks[year] && pageLinks[year][ministryName];
+
+	  if (targetPage) {
+		// 등록된 페이지가 있으면 해당 HTML 파일로 이동
+		window.location.href = targetPage;
+	  } else {
+		// 아직 제작하지 않은 사역인 경우 안내창 노출
+		alert(`[${year}년 ${ministryName}] 상세 리뷰 페이지는 아직 준비 중입니다.`);
+	  }
+	}
+
+    // 엔터 버튼 클릭 시 해당 연도 데이터 갱신
+    btnEnter.addEventListener("click", () => {
+      activeYear = yearSelect.value;
+      renderMinistryButtons(activeYear);
+    });
+
+    // 콤보박스에서 키보드 Enter 입력 시 바로 조회 실행
+    yearSelect.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        btnEnter.click();
+      }
+    });
+
+    // 초기 렌더링
+    renderMinistryButtons(activeYear);
+  </script>
+</body>
+</html>

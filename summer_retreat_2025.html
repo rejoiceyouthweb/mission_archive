@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2025 청소년부 하계수련회 진행안 종합 시스템</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --badge-blue-bg: #e0f2fe;
+      --badge-blue-txt: #0369a1;
+      --badge-amber-bg: #fef3c7;
+      --badge-amber-txt: #92400e;
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 16px; }
+    .container { max-width: 1440px; margin: 0 auto; }
+
+    /* 헤더 영역 */
+    .header-box {
+      background: #fff;
+      padding: 20px 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .header-title h1 { font-size: 1.5rem; font-weight: 800; color: #0369a1; }
+    .header-title p { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
+    .btn-back {
+      padding: 8px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .btn-back:hover { background: #e2e8f0; color: var(--text); }
+
+    /* 탭 네비게이션 */
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-btn {
+      white-space: nowrap;
+      padding: 10px 16px;
+      background: #fff;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover { background: #f8fafc; color: var(--primary); }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+    }
+
+    /* 탭 본문 */
+    .tab-pane {
+      display: none;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .tab-pane.active { display: block; }
+
+    .pane-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .pane-title { font-size: 1.15rem; font-weight: 700; color: #1e293b; }
+    .search-input {
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      width: 220px;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--primary); }
+
+    /* 공통 테이블 */
+    .table-responsive {
+      overflow-x: auto;
+      max-height: 720px;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+    th, td {
+      padding: 10px 12px;
+      border: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+    th {
+      background-color: #f8fafc;
+      color: #334155;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    tbody tr:hover { background-color: #f8fafc; }
+
+    /* 그리드 */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .team-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fafafa;
+    }
+    .team-title { font-size: 1rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px; }
+    .team-members { font-size: 0.88rem; line-height: 1.6; color: #334155; }
+
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; }
+    .badge-blue { background: var(--badge-blue-bg); color: var(--badge-blue-txt); }
+    .badge-amber { background: var(--badge-amber-bg); color: var(--badge-amber-txt); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 헤더 -->
+    <div class="header-box">
+      <div class="header-title">
+        <h1>2025 청소년부 연합 하계수련회 아카이브</h1>
+        <p>주제: 거룩 (1일차: 네 신을 벗어라 / 2일차: 주와 연합하라) | 일정: 7월 30일(수) ~ 8월 1일(금)</p>
+      </div>
+      <button class="btn-back" onclick="location.href='main.html'">← 사역 목록으로 돌아가기</button>
+    </div>
+
+    <!-- 탭 네비게이션 -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('tab-tt')">1. 타임테이블</button>
+      <button class="tab-btn" onclick="showTab('tab-allq')">2. 전체 교사 큐시트</button>
+      <button class="tab-btn" onclick="showTab('tab-teams')">3. 조 편성 (1~11조)</button>
+      <button class="tab-btn" onclick="showTab('tab-rooms')">4. 공간 & 숙소 배치</button>
+      <button class="tab-btn" onclick="showTab('tab-water')">5. 물놀이장 미션</button>
+      <button class="tab-btn" onclick="showTab('tab-bbg')">6. BBG 대전 매뉴얼</button>
+      <button class="tab-btn" onclick="showTab('tab-items')">7. 물품팀 체크리스트</button>
+      <button class="tab-btn" onclick="showTab('tab-worship')">8. 예배 & 집회 큐시트</button>
+      <button class="tab-btn" onclick="showTab('tab-cars')">9. 차량 배정</button>
+      <button class="tab-btn" onclick="showTab('tab-stats')">10. 출석 & 결산</button>
+    </nav>
+
+    <!-- 1. 타임테이블 -->
+    <section id="tab-tt" class="tab-pane active">
+      <div class="pane-header">
+        <h2 class="pane-title">2025 하계수련회 2박 3일 전체 타임테이블</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>시간</th><th>7월 30일(수) 1일차</th><th>7월 31일(목) 2일차</th><th>8월 1일(금) 3일차</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>08:00:00</td><td>교회 집결</td><td>기상 및 아침식사</td><td>기상 및 아침식사</td></tr>
+            <tr><td>09:00:00</td><td>개회 예배</td><td>청일 챌린지 & 청이 나눔 (공과 2)</td><td>폐회 예배 & 마무리</td></tr>
+            <tr><td>10:00:00</td><td>이동 (웅진플레이도시)</td><td>특강</td><td>복귀 (10:30) / 귀가</td></tr>
+            <tr><td>11:30:00</td><td>점심 식사</td><td>-</td><td>뒷정리 (11:30)</td></tr>
+            <tr><td>12:00:00</td><td>-</td><td>점심 식사</td><td>-</td></tr>
+            <tr><td>13:00:00</td><td>물놀이 활동</td><td>레크레이션 (13:30~)</td><td>-</td></tr>
+            <tr><td>16:00:00</td><td>숙소 이동</td><td>자유시간</td><td>-</td></tr>
+            <tr><td>17:00:00</td><td>OT</td><td>오후 공과 (공과 3)</td><td>-</td></tr>
+            <tr><td>18:00:00</td><td>저녁 식사</td><td>저녁 식사 (18:30)</td><td>-</td></tr>
+            <tr><td>20:00:00</td><td><strong>1일차 집회: '거룩' - 네 신을 벗어라</strong></td><td><strong>2일차 집회: '거룩' - 주와 연합하라</strong></td><td>-</td></tr>
+            <tr><td>22:30:00</td><td>취침 (교사 브리핑)</td><td>자유 시간</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. 전체 교사 큐시트 -->
+    <section id="tab-allq" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">전체 교사 및 스태프 운영 큐시트</h2>
+        <input type="text" id="qSearch" class="search-input" placeholder="이름/담당 검색..." onkeyup="filterTable('qSearch', 'qTable')">
+      </div>
+      <div class="table-responsive">
+        <table id="qTable">
+          <thead>
+            <tr>
+              <th>이름</th><th>담당</th><th>전 날 최종준비</th><th>08:00 사전준비</th><th>09:00 개회예배</th><th>10:00 이동</th><th>11:30 식사</th><th>12:30 물놀이</th><th>16:00 숙소이동</th><th>17:00 OT</th><th>18:00 저녁식사</th><th>20:00 집회</th><th>22:30 취침</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>김지환</td><td>교육</td><td>전체점검</td><td>-</td><td>8조 공과</td><td>총괄 (수영장)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>김재호</td><td>총괄/본부</td><td>-</td><td>-</td><td>2조 공과</td><td>인원체크</td><td>외부식사 & 티케팅</td><td>아쿠아리움</td><td>인원체크</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>정상진</td><td>수송</td><td>차량 점검</td><td>차량 운행</td><td>예배 후 수송 준비</td><td>차량운행 (렌트버스)</td><td>외부주차 및 식사</td><td>동선통제</td><td>수송</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>이원욱</td><td>수송</td><td>-</td><td>차량 운행</td><td>-</td><td>차량운행 (4771)</td><td>외부주차 및 식사</td><td>동선통제</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>김원종</td><td>교육</td><td>-</td><td>-</td><td>공과</td><td>이동</td><td>청2 남자인솔</td><td>물놀이 스탬프 1</td><td>이동</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>박찬솔</td><td>교육</td><td>-</td><td>-</td><td>6조 공과</td><td>청2 차량인솔 (렌트버스)</td><td>청2 남자인솔</td><td>물놀이 스탭</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>신혜진</td><td>교육</td><td>-</td><td>-</td><td>9조 공과</td><td>청2 인원점검 (4771)</td><td>청2 여자인솔</td><td>물놀이 스탭</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>고아름</td><td>교육</td><td>-</td><td>안내</td><td>7조 공과</td><td>청1 인원점검 (렌트버스)</td><td>청1 남자인솔</td><td>물놀이 스탭</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>김명옥</td><td>교육</td><td>-</td><td>-</td><td>5조 공과</td><td>청1 차량인솔 (4771)</td><td>청1 여자인솔</td><td>물놀이 스탭</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>정성민</td><td>레크레이션</td><td>-</td><td>-</td><td>10조 공과</td><td>청1 차량인솔 (4771)</td><td>인솔 통합</td><td>물놀이 스탬프 총괄</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>이종헌</td><td>교육</td><td>-</td><td>-</td><td>11조 공과</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>송세찬</td><td>예배</td><td>전체점검</td><td>-</td><td>-</td><td>"0822" 운행</td><td>예배준비</td><td>-</td><td>-</td><td>OT 진행</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>정창균</td><td>총괄/촬영</td><td>-</td><td>-</td><td>-</td><td>"9539" 운행</td><td>총괄</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>사진자료 정리 (1일차)</td></tr>
+            <tr><td>박창범</td><td>방송/교육</td><td>방송물품확인</td><td>-</td><td>4조 공과</td><td>"2750" 운행</td><td>음향준비</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>조영진</td><td>관리/교육</td><td>숙소물품확인</td><td>-</td><td>1조 공과</td><td>-</td><td>숙소준비</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>숙소점검(남)</td></tr>
+            <tr><td>이승미</td><td>관리/교육</td><td>숙소물품확인</td><td>-</td><td>3조 공과</td><td>-</td><td>숙소준비</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>숙소점검(여)</td></tr>
+            <tr><td>이미숙</td><td>주방/응급</td><td>-</td><td>-</td><td>-</td><td>-</td><td>식사준비</td><td>-</td><td>-</td><td>-</td><td>-</td><td>야식준비</td><td>-</td></tr>
+            <tr><td>서수경</td><td>주방</td><td>여행자보험</td><td>입금확인</td><td>-</td><td>-</td><td>식사준비</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>주방팀</td><td>주방</td><td>-</td><td>-</td><td>-</td><td>-</td><td>식사준비</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>찬양팀</td><td>찬양</td><td>이동</td><td>-</td><td>-</td><td>-</td><td>찬양준비</td><td>-</td><td>-</td><td>주제찬양 반주</td><td>-</td><td>찬양인도</td><td>-</td></tr>
+            <tr><td>김종건</td><td>조명</td><td>-</td><td>-</td><td>-</td><td>-</td><td>조명준비</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            <tr><td>정행복</td><td>자막</td><td>-</td><td>-</td><td>방송실 운영</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. 조 편성 -->
+    <section id="tab-teams" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">수련회 조 편성 명단 (총 11개 조)</h2>
+      </div>
+      <div class="grid-cards">
+        <div class="team-card"><div class="team-title">1조 (담임: 조영진)</div><div class="team-members">김연호, 김주현, 남도한, 박영준, 박재준</div></div>
+        <div class="team-card"><div class="team-title">2조 (담임: 김재호)</div><div class="team-members">이준형, 허원우, 서지윤, 김시환</div></div>
+        <div class="team-card"><div class="team-title">3조 (담임: 이승미)</div><div class="team-members">나푸른, 김예슬, 박하윤, 조서현, 박지원</div></div>
+        <div class="team-card"><div class="team-title">4조 (담임: 박창범)</div><div class="team-members">박민준, 박선우, 박수인, 양승우, 이현준, 최윤호</div></div>
+        <div class="team-card"><div class="team-title">5조 (담임: 김명옥)</div><div class="team-members">남예서, 김샛별, 김세은, 박시현, 임소윤, 김아린, 송은서</div></div>
+        <div class="team-card"><div class="team-title">6조 (담임: 박찬솔)</div><div class="team-members">이지웅, 홍은규, 김예일, 최준혁, 김건후, 김태현</div></div>
+        <div class="team-card"><div class="team-title">7조 (담임: 고아름)</div><div class="team-members">이은빈, 박민선A, 김현서, 김서현, 박하경</div></div>
+        <div class="team-card"><div class="team-title">8조 (담임: 김원종)</div><div class="team-members">이다니엘, 이승기, 차승민, 박찬석, 이준수, 송우석</div></div>
+        <div class="team-card"><div class="team-title">9조 (담임: 신혜진)</div><div class="team-members">김예린, 홍유주, 김세연, 호준서, 이지영, 김하은</div></div>
+        <div class="team-card"><div class="team-title">10조 (담임: 정성민)</div><div class="team-members">조승재, 성유진, 임희호, 석주원, 박태인, 신현태</div></div>
+        <div class="team-card"><div class="team-title">11조 (담임: 이원욱)</div><div class="team-members">이혜주, 유지민, 국하경, 유하은, 유시언, 류준희, 박영진</div></div>
+      </div>
+      <div style="margin-top:14px; background:#f8fafc; border:1px solid var(--border); padding:12px; border-radius:6px; font-size:0.85rem; color:var(--text-muted);">
+        • 찬양팀 지원 인원: 구본곤, 김은찬, 박예현, 옥유한, 조완, 김다정, 김수민, 박주영, 맹주은, 서혜원, 한은지<br>
+        • 아쿠아리움 별도 참여자: 남도한, 이은빈, 남예서
+      </div>
+    </section>
+
+    <!-- 4. 공간 & 숙소 배치 -->
+    <section id="tab-rooms" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">공간별 숙소 및 활동 장소 배정</h2>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>구분</th><th>참여 대상</th><th>수용 규모</th><th>숙소 배정 방</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>남학생</strong></td><td>중1남</td><td>9명</td><td>1층 산와방</td><td>-</td></tr>
+            <tr><td><strong>남학생</strong></td><td>중2남</td><td>6명</td><td>2층 본당</td><td>-</td></tr>
+            <tr><td><strong>남학생</strong></td><td>중3남</td><td>18명</td><td>2층 본당</td><td>-</td></tr>
+            <tr><td><strong>남학생</strong></td><td>찬양팀 남</td><td>5명</td><td>1층 초록별관</td><td>-</td></tr>
+            <tr><td><strong>여학생</strong></td><td>중1여</td><td>6명</td><td>2층 중간방</td><td>-</td></tr>
+            <tr><td><strong>여학생</strong></td><td>중2여</td><td>7명</td><td>2층 큰방</td><td>-</td></tr>
+            <tr><td><strong>여학생</strong></td><td>중3여</td><td>12명</td><td>2층 큰방</td><td>-</td></tr>
+            <tr><td><strong>여학생</strong></td><td>고1~고2여</td><td>4명</td><td>2층 큰방</td><td>-</td></tr>
+            <tr><td><strong>여학생</strong></td><td>찬양팀 여</td><td>6~7명</td><td>1층 별관 ③</td><td>-</td></tr>
+            <tr><td><strong>교사진</strong></td><td>청1 남교사</td><td>6명</td><td>1층 산와방</td><td>-</td></tr>
+            <tr><td><strong>교사진</strong></td><td>청2 남교사</td><td>7명</td><td>1층 수와방 (2일차 초록별관/별관③)</td><td>-</td></tr>
+            <tr><td><strong>교사진</strong></td><td>청1/2 여교사</td><td>7명</td><td>2층 중간방 (6명)</td><td>-</td></tr>
+            <tr><td><strong>스태프</strong></td><td>주방팀</td><td>6명</td><td>2층 작은방 1, 작은방 2</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px; font-size:0.85rem; color:var(--text-muted);">
+        * 1층(남자) 배정 가능: 56명 (본당 25, 산와방 19, 수와방 12, 초록별관 5) / 2층(여자) 배정 가능: 44명 (큰방 20, 중간방 12, 작은방 8, 별관 6)
+      </div>
+    </section>
+
+    <!-- 5. 물놀이장 미션 -->
+    <section id="tab-water" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">웅진플레이도시 물놀이장 미션 가이드</h2>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>위치</th><th>담당자</th><th>미션 내용</th><th>준비물</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>1 w</strong></td><td>고아름</td><td>파도풀에서 다 같이 손잡고 손 안 떨어지기</td><td>-</td></tr>
+            <tr><td><strong>8 w</strong></td><td>김명옥</td><td>함께 어트랙션 기구 탑승 미션</td><td>-</td></tr>
+            <tr><td><strong>7 s</strong></td><td>정성민</td><td>제시어 이어 말하기 미션</td><td>-</td></tr>
+            <tr><td><strong>12 w</strong></td><td>스태프</td><td>현장 배치 미션</td><td>-</td></tr>
+            <tr><td><strong>7 w</strong></td><td>스태프</td><td>현장 배치 미션</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. BBG 대전 매뉴얼 -->
+    <section id="tab-bbg" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">BBG (Bible Battle Ground) 연합 서바이벌 매뉴얼</h2>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>분류</th><th>역할명 / 부스명</th><th>수량/인원</th><th>세부 룰 및 미션 내용</th><th>필요 물품</th></tr>
+          </thead>
+          <tbody>
+            <tr><td rowspan="5"><strong>게임 구성원</strong></td><td>신자</td><td>1명</td><td>팀원 전원이 아웃되기 전까지 아웃 불가 (그 전까지 명찰 미소지)</td><td>명찰 끈 & 한지</td></tr>
+            <tr><td>암송 (보급병)</td><td>2명</td><td>전용 암송 게임 수행 후 탄약/무기 조달</td><td>-</td></tr>
+            <tr><td>감사 (탱커)</td><td>1명</td><td>공격 불가, 신자를 보호하는 방패 착용</td><td>골판지 방패</td></tr>
+            <tr><td>소망 (메딕)</td><td>1명</td><td>탈락 조원의 명찰로 첨탑/기도 부스에서 부활 미션 수행</td><td>소생권</td></tr>
+            <tr><td>믿음 (병사)</td><td>N명</td><td>물총/물풍선 공격 수행</td><td>물총, 물풍선</td></tr>
+            <tr><td rowspan="3"><strong>스태프</strong></td><td>심판</td><td>3명</td><td>배틀그라운드 필드 관리 및 아웃 판정</td><td>옐로/레드카드</td></tr>
+            <tr><td>사탄</td><td>1명</td><td>필드 내 물풍선 난사 (시련 부여)</td><td>물풍선 200개</td></tr>
+            <tr><td>부스 운영자</td><td>6명</td><td>각 미션 부스 총괄</td><td>방수팩, 테이블 5개</td></tr>
+            <tr><td rowspan="7"><strong>미션 부스</strong></td><td>말씀 부스 (김유찬)</td><td>보급</td><td>뽑힌 성경 구절 외우기 성공 시 탄약(물병) 지급</td><td>-</td></tr>
+            <tr><td>전도 부스 (이예지)</td><td>보급</td><td>뒤죽박죽 섞인 단어 조합 문장 완성 후 지령 수행 시 무기 지급</td><td>-</td></tr>
+            <tr><td>봉사 부스 (최승)</td><td>보급</td><td>몸으로 말해요 타임어택 (2분 내 8개 성공 시 탄약 지급)</td><td>-</td></tr>
+            <tr><td>교제 부스 (변영주)</td><td>보급</td><td>릴레이 물 옮기기 미션 (탈락 가능성 있음)</td><td>세수대야 10개, 안대</td></tr>
+            <tr><td>인내 부스 (신동근)</td><td>탱커</td><td>물에서 숨참기 미션 성공 시 방패 지급</td><td>-</td></tr>
+            <tr><td>보화 찾기 (부장단)</td><td>All</td><td>필드에 숨겨진 종이 탐색 (우비, 무기, 물통 등 보급)</td><td>A4 모조지</td></tr>
+            <tr><td>기도 부스 (임창대)</td><td>메딕</td><td>탈락자 명찰 지참 후 기도문 낭독 시 부활 (세이프존 아님)</td><td>A4 모조지</td></tr>
+            <tr><td><strong>벌칙 부스</strong></td><td>지옥 (벌칙)</td><td>페널티</td><td>반칙, 판정 거부자 다인용 비닐하우스 격리</td><td>다인용 비닐하우스</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px; font-size:0.85rem; color:var(--text-muted);">
+        • 무기/탄약: 물총 42개 (소30, 중10, 대2), 권총 30개, 물풍선 200개, 규격 물병 60개, 골판지 방패 10개 (팀당 1개 소지)<br>
+        • 승패 조건: 신자 생존 시 승리 / 신자 아웃 시 팀 패배 (10분마다 자기장 축소, 수성펜 번짐 시 아웃)
+      </div>
+    </section>
+
+    <!-- 7. 물품팀 체크리스트 -->
+    <section id="tab-items" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">수련회 물품팀 종합 체크리스트</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>카테고리</th><th>물품명</th><th>수량</th><th>확인 상태</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>본당</td><td>매트</td><td>70개</td><td><span class="badge badge-amber">확인완료</span></td><td>1톤 트럭 섭외, 선발대 짐 운반 필요</td></tr>
+            <tr><td>본당</td><td>청소용 걸레</td><td>1 box</td><td>미확인</td><td>1회용 밀대 연결 걸레</td></tr>
+            <tr><td>본당</td><td>본부용 다과</td><td>음료, 과자</td><td><span class="badge badge-amber">확인완료</span></td><td>박카스 4box, 대용량 젤리, 초콜릿, 사탕, 과자 등</td></tr>
+            <tr><td>본당</td><td>디퓨저 (코튼향)</td><td>2개</td><td>미확인</td><td>-</td></tr>
+            <tr><td>숙소</td><td>모기매트 (패드)</td><td>17개</td><td>미확인</td><td>콘센트 수량 기준</td></tr>
+            <tr><td>숙소</td><td>에프킬라</td><td>4개</td><td>미확인</td><td>1층 2개, 2층 2개</td></tr>
+            <tr><td>숙소</td><td>모기기피제</td><td>6개</td><td>미확인</td><td>1층 3개, 2층 3개</td></tr>
+            <tr><td>샤워실</td><td>욕실 세제 / 청소솔</td><td>1개 / 2개</td><td>미확인</td><td>-</td></tr>
+            <tr><td>샤워실</td><td>바디워시 / 샴푸</td><td>각 2개</td><td>미확인</td><td>남녀 공용 1개씩</td></tr>
+            <tr><td>위생/생활</td><td>종량제 쓰레기봉투</td><td>3장</td><td>미확인</td><td>75L 화성시 대용량</td></tr>
+            <tr><td>위생/생활</td><td>재활용 흰색봉투</td><td>10장</td><td><span class="badge badge-amber">확인완료</span></td><td>청일 보관분 활용</td></tr>
+            <tr><td>위생/생활</td><td>위생백 (大) / 빨랫줄</td><td>1롤 / 10m</td><td>미확인</td><td>젖은 수영복 보관 및 건조</td></tr>
+            <tr><td>식수/음료</td><td>생수 2L / 생수 500ml</td><td>48개 / 300개</td><td>미확인</td><td>웅진플레이 100개, 본당 200개</td></tr>
+            <tr><td>식음료</td><td>빵 / 종이컵</td><td>100개 / 500개</td><td>미확인</td><td>웅진플레이 간식용</td></tr>
+            <tr><td>의약품</td><td>상비 구급약</td><td>1세트</td><td>미확인</td><td>이미숙 권사님 지참 (진통제, 소화제, 지사제, 메디폼, 포비돈 등)</td></tr>
+            <tr><td>인쇄물</td><td>워크북 / 명찰 / 포스터</td><td>120권 / 120개 / 20장</td><td>미확인</td><td>타임테이블 10부, BBG 설명서 20부 등</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 8. 예배 & 집회 큐시트 -->
+    <section id="tab-worship" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">예배 및 저녁 찬양집회 큐시트</h2>
+      </div>
+      
+      <!-- 1일차 저녁집회 콘티 -->
+      <div style="margin-bottom:16px;">
+        <h3 style="font-size:1rem; font-weight:700; margin-bottom:8px; color:var(--primary);">🔥 1일차 저녁집회 (20:00~ / 인도: 송세찬 전도사)</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>순번</th><th>곡명 / 순서</th><th>소요</th><th>비고</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>예배전</td><td>예배의 의미 기도 (송세찬 전도사)</td><td>4분</td><td>-</td></tr>
+              <tr><td>1</td><td>너는 꽃이야</td><td>4:00</td><td>-</td></tr>
+              <tr><td>2</td><td>주님의 마음 있는 곳 (A)</td><td>5:30</td><td>-</td></tr>
+              <tr><td>3</td><td>Sing Sing Sing (D)</td><td>5:33</td><td>-</td></tr>
+              <tr><td>4</td><td>모든 것을 할 수 있네 (G)</td><td>4:21</td><td>-</td></tr>
+              <tr><td>5</td><td>주님의 임재 앞에서 (G)</td><td>4:36</td><td>-</td></tr>
+              <tr><td>6</td><td>주의 자비가 내려와 (D)</td><td>4:00</td><td>-</td></tr>
+              <tr><td>7</td><td>내 모습 이대로 (D)</td><td>5:21</td><td>-</td></tr>
+              <tr><td>8</td><td>주님 무어라 말할까요 (D)</td><td>7:08</td><td>-</td></tr>
+              <tr><td>9</td><td>모든 생명들아 소리쳐 (D)</td><td>6:20</td><td>-</td></tr>
+              <tr><td>말씀</td><td>성경봉독 (출애굽기 15장) 및 설교</td><td>-</td><td>자막: 정행복 / 조명: 김종건</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2일차 저녁집회 세션 -->
+      <div>
+        <h3 style="font-size:1rem; font-weight:700; margin-bottom:8px; color:var(--primary);">🔥 2일차 저녁집회 세션 & 예배위원</h3>
+        <div style="background:#f8fafc; border:1px solid var(--border); padding:12px 14px; border-radius:6px; font-size:0.88rem; line-height:1.6;">
+          • <strong>찬양 세션:</strong> Main 지은애 | Synth 방주영 | Elec 이상우 | Bass 김예원 | Drum 박건우<br>
+          • <strong>싱어팀:</strong> 싱어L(1~4), 싱어R(1, 3, 4)<br>
+          • <strong>미디어/방송:</strong> 자막, 조명, 워십팀
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. 차량 배정 -->
+    <section id="tab-cars" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">수송 차량 배정 명단</h2>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>차량 구분 / 번호</th><th>운전자 및 선탑자</th><th>탑승자 명단</th><th>용도 및 비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>0822 (스타렉스)</strong></td><td>송세찬</td><td>김종건, 방송 스태프</td><td>방송 장비 수송</td></tr>
+            <tr><td><strong>9539</strong></td><td>정창균</td><td>정행복</td><td>주방 집기 및 음향 장비</td></tr>
+            <tr><td><strong>6251 (스타리아)</strong></td><td>김민우(예정) / 조영진</td><td>유종순, 김규순, 박춘희, 이미숙, 이승미</td><td>주방팀 및 전자드럼 수송</td></tr>
+            <tr><td><strong>1톤 트럭 (이원욱T CAR)</strong></td><td>박창범</td><td>박창범</td><td>대형 짐 및 매트 운반</td></tr>
+            <tr><td><strong>개인차</strong></td><td>서수경</td><td>박순영, 최현순, 김선희</td><td>개인 지원</td></tr>
+            <tr><td><strong>4771 (교회버스)</strong></td><td>이원욱</td><td>김재호, 김명옥, 신혜진, 최유준, 최유담, 김원종, 고아름, 김예원, 김예린 외 학생</td><td>본대 학생 수송</td></tr>
+            <tr><td><strong>렌트 대형버스</strong></td><td>정상진</td><td>김지환, 정성민, 박찬솔 외 학생 다수</td><td>본대 학생 수송</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10. 출석 통계 & 결산 -->
+    <section id="tab-stats" class="tab-pane">
+      <div class="pane-header">
+        <h2 class="pane-title">출석 인원 집계 및 재정 항목</h2>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>구분</th><th>남성</th><th>여성</th><th>합계</th><th>비고</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>학생 (중1~고2)</td><td>33명</td><td>30명</td><td><strong>63명</strong></td><td>중1: 15명 / 중2: 13명 / 중3: 30명 / 고등: 5명</td></tr>
+            <tr><td>교사진 (청1/청2)</td><td>13명</td><td>7명</td><td><strong>20명</strong></td><td>청1: 9명 / 청2: 11명</td></tr>
+            <tr><td>찬양팀</td><td>5명</td><td>6~7명</td><td><strong>11~12명</strong></td><td>-</td></tr>
+            <tr><td>주방팀 / 임마누엘</td><td>-</td><td>8명</td><td><strong>8명</strong></td><td>주방 6명, 영유아 2명</td></tr>
+            <tr style="background:#f8fafc; font-weight:700;"><td><strong>총 참여 인원</strong></td><td><strong>51명</strong></td><td><strong>52명</strong></td><td><strong>103명</strong></td><td>숙박 배정: 100명 규모</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:14px; background:#f8fafc; border:1px solid var(--border); padding:12px; border-radius:6px; font-size:0.88rem; color:var(--text-sub);">
+        💰 <strong>예·결산 관리 항목:</strong> 숙박비(숙소 대관), 교통비(대형버스 대절, 왕복 주유비), 식사비(일반식, 야식, 토요일 점심, 간식), 예배비(강사 섭외비, 물품구입비, 준비팀), 프로그램비(BBG 및 물놀이장 소품)
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+    }
+
+    function filterTable(inputId, tableId) {
+      const filter = document.getElementById(inputId).value.toLowerCase();
+      const rows = document.getElementById(tableId).getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+      for (let i = 0; i < rows.length; i++) {
+        const text = rows[i].textContent || rows[i].innerText;
+        rows[i].style.display = text.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+      }
+    }
+  </script>
+</body>
+</html>
